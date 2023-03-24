@@ -79,6 +79,8 @@ export default function LoginPhone() {
 			const res = await userAPI.checkPhone(phone);
 			const isExistUser = res.data.checked;
 
+			console.log(res);
+
 			if (!isExistUser) {
 				confirmResultHandle();
 				dispatch(setRegister(phone));
