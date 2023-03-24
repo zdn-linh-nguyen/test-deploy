@@ -1,5 +1,5 @@
 import axios from "axios";
-const MAIN_URL = "https://3.84.222.249:8080/";
+const MAIN_URL = "http://3.84.222.249:8080/";
 
 const mainAxios = axios.create({
 	baseURL: MAIN_URL,
@@ -15,7 +15,7 @@ mainAxios.interceptors.request.use((config) => {
 
 mainAxios.interceptors.response.use(
 	(response) => {
-		return response.data;
+		return response;
 	},
 	(error) => {
 		console.error(`Error status: ${error.response.status}`);
