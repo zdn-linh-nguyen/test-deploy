@@ -1,0 +1,72 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.textContainer {
+	@include flex(flex-start, flex-end);
+	flex-wrap: wrap;
+
+	&__title {
+		background-color: $cl-main-purple;
+		max-width: 250px;
+		padding: 0.625rem 1rem;
+		border-radius: 1.5rem 0 1.5rem 1.5rem;
+		font-size: $fs-body-2;
+		line-height: $lh-body-2;
+		color: $cl-neutral-0;
+		text-align: justify;
+		overflow-wrap: break-word;
+	}
+}
+
+.imageContainer {
+	max-width: 200px;
+	display: grid;
+	margin-left: auto;
+	gap: 0.5rem;
+
+	&__content {
+		width: 100%;
+		overflow: hidden;
+		aspect-ratio: 1/1;
+		border-radius: 0.75rem;
+	}
+}
+
+.videoContainer {
+	@include flex(flex-start, flex-end);
+	flex-wrap: wrap;
+
+	&__content {
+		max-width: 250px;
+	}
+}
+
+// not me
+.textContainer__notMe {
+	@include flex(flex-start, flex-start);
+	flex-wrap: wrap;
+
+	&__title {
+		background-color: $cl-neutral-5;
+		max-width: 250px;
+		padding: 0.625rem 1rem;
+		border-radius: 1.5rem 0 1.5rem 1.5rem;
+		font-size: $fs-body-2;
+		line-height: $lh-body-2;
+		text-align: left;
+		color: $cl-main-grey;
+		overflow-wrap: break-word;
+	}
+}
+
+.imageContainer__notMe {
+	max-width: 200px;
+	display: grid;
+	margin-right: auto;
+	gap: 0.5rem;
+}
+
+.videoContainer__notMe {
+	@include flex(flex-start, flex-start);
+	flex-wrap: wrap;
+}

@@ -1,0 +1,16 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.textarea {
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  resize: none;
+  background-color: $cl-neutral-5;
+}
+
+.btn {
+  margin-top: auto;
+  background-color: $cl-main-purple;
+}

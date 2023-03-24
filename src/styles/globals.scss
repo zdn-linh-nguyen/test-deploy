@@ -1,0 +1,226 @@
+@import "./variables";
+@import "./reset.scss";
+@import "./mixins";
+
+body * {
+	font-family: $ff-primary;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: $fw-bold;
+}
+h1 {
+	font-size: $fs-h1;
+	line-height: $lh-h1;
+}
+h2 {
+	font-size: $fs-h2;
+	line-height: $lh-h2;
+}
+h3 {
+	font-size: $fs-h3;
+	line-height: $lh-h3;
+}
+h4 {
+	font-size: $fs-h4;
+	line-height: $lh-h4;
+}
+h4 {
+	font-size: $fs-h5;
+	line-height: $lh-h5;
+}
+
+// ----- shorthand
+.w-full {
+	width: 100%;
+}
+
+.h-full {
+	height: 100%;
+}
+
+.bg-white {
+	background-color: $cl-white;
+}
+
+.object-cover {
+	object-fit: cover;
+}
+
+.bg-card {
+	background: rgb(0, 0, 0);
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.7038165608040091) 0%, rgba(255, 255, 255, 0) 60%);
+}
+
+.absolute-center {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.absolute-center-y {
+	content: "";
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.scale-75 {
+	--tw-scale-x: 0.75;
+	--tw-scale-y: 0.75;
+	transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate))
+		skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.hidden {
+	display: none;
+}
+
+.grid-col-1 {
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-col-2 {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+// --- scollbar
+::-webkit-scrollbar {
+	width: 7px;
+	height: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #a48bfe;
+	border-radius: 5px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #7a56fe;
+}
+
+// ----- body
+.container {
+	width: 100%;
+	min-height: 100vh;
+	padding-inline: 1rem;
+	max-width: 48rem;
+	margin: 0 auto;
+	// box-shadow: $shadow-md;
+}
+
+.image-container {
+	position: relative;
+}
+.image-container span {
+	position: unset !important;
+	height: 100% !important;
+}
+.image-container .image {
+	object-fit: cover;
+	height: 100% !important;
+	width: 100% !important;
+	position: relative !important;
+}
+
+// ----- button
+.btn {
+	@include flex(center, space-between);
+	gap: 2rem;
+	font-family: $ff-primary;
+	color: $cl-white;
+}
+
+.button-1 {
+	font-weight: $fw-bold;
+	font-size: $fs-button-1;
+	line-height: $lh-button-1;
+}
+.button-2 {
+	font-weight: $fw-bold;
+	font-size: $fs-button-2;
+	line-height: $lh-button-2;
+}
+
+.btn-md {
+	padding: 0.625rem 1.5rem;
+	border-radius: 13px;
+}
+
+.btn-primary {
+	background-color: $cl-main-purple;
+}
+
+.btn-secondary {
+	font-size: 1rem;
+	font-weight: $fw-bold;
+	background-color: $cl-neutral-100;
+}
+
+.btn__icon {
+	text-align: center;
+	width: 100%;
+}
+
+// ----- animation
+
+.animate-up {
+	animation: animate-up 0.7s ease-in-out;
+}
+@keyframes animate-up {
+	0% {
+		transform: translateY(100%);
+	}
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+.animate-down {
+	animation: animate-down 0.7s ease-in-out;
+}
+@keyframes animate-down {
+	100% {
+		transform: translateY(100%);
+	}
+	0% {
+		transform: translateY(0%);
+	}
+}
+
+.animate-spin {
+	animation: animate-spin 1s linear infinite;
+}
+
+@keyframes animate-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.animate-hue {
+	animation: animate-hue 0.2s linear infinite;
+}
+@keyframes animate-hue {
+	0% {
+		filter: hue-rotate(0deg) brightness(1);
+	}
+	50% {
+		filter: hue-rotate(0deg) brightness(0);
+	}
+	100% {
+		filter: hue-rotate(360deg) brightness(1);
+	}
+}

@@ -1,0 +1,36 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.container {
+	@include flex(center, space-between);
+	padding-block: 7px;
+
+	&__boxTitle {
+		@include flex(center, flex-start);
+		gap: 0.25rem;
+
+		&__title {
+			font-weight: $fw-bold;
+			margin-left: 10px;
+			color: $cl-neutral-100;
+			font-size: $fs-body-3;
+			line-height: $lh-body-3;
+		}
+
+		&__select {
+			width: 130px;
+			text-align: right;
+		}
+	}
+
+	&__boxSub {
+		@include flex(center, flex-start);
+		margin-right: 12px;
+
+		&__sub {
+			font-size: $fs-body-3;
+			line-height: $lh-body-3;
+			margin-right: 12px;
+		}
+	}
+}

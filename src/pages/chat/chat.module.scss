@@ -1,0 +1,67 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.chat {
+	padding-bottom: 6rem;
+
+	&__box {
+		margin-bottom: 0.5rem;
+
+		&__wrap {
+			@include flex(center, space-between);
+			padding-block: 11px;
+
+			&__title {
+				color: $cl-neutral-100;
+			}
+		}
+	}
+
+	&__boxFriend {
+		&__title {
+			color: $cl-neutral-100;
+			padding-block: 0.5rem;
+			font-weight: $fw-bold;
+			line-height: $lh-body-1;
+			font-size: $fs-body-1;
+			margin-bottom: 0.5rem;
+		}
+
+		&__conversation {
+			&__title {
+				color: $cl-neutral-100;
+				font-weight: $fw-bold;
+				line-height: $lh-body-1;
+				font-size: $fs-body-1;
+				margin: 1.25rem 0 1rem;
+			}
+
+			&__box {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				overflow-y: hidden;
+				min-height: 200px;
+				max-height: $h-chat;
+			}
+		}
+
+		&__noFriend {
+			@include flex(center, center);
+			flex-direction: column;
+			gap: 1rem;
+			margin-top: 8rem;
+
+			&__content {
+				text-align: center;
+
+				&__title {
+					color: $cl-neutral-100;
+					font-weight: $fw-bold;
+					line-height: $lh-body-1;
+					font-size: $fs-body-1;
+				}
+			}
+		}
+	}
+}
