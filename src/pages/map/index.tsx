@@ -24,7 +24,10 @@ export default function MapContainer() {
 	const [friends, setFriends] = useState<IFriends[]>([]);
 	const [isFocus, setIsFocus] = useState<boolean>(false);
 
-	console.log(sUser);
+	useEffect(() => {
+		dispatch(getProfile());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		async function fetchLocation() {
@@ -36,7 +39,6 @@ export default function MapContainer() {
 			}
 		}
 		fetchLocation();
-		dispatch(getProfile());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

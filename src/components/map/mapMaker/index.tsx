@@ -20,7 +20,8 @@ function getIconMarker(imageUrl: string) {
 }
 
 function MapMaker({ isFocus, location, info }: Props) {
-	const userAvatar = info.avatar;
+	const userAvatar = info.avatar ? info.avatar : "/assets/images/avatar.png";
+
 	const map = useMapEvents({});
 	useEffect(() => {
 		if (location) {
@@ -33,7 +34,7 @@ function MapMaker({ isFocus, location, info }: Props) {
 		<>
 			<Marker
 				position={[location.latitude, location.longitude]}
-				icon={getIconMarker(userAvatar || "")}
+				icon={getIconMarker(userAvatar)}
 			></Marker>
 		</>
 	);
