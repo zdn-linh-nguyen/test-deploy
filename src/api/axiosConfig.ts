@@ -1,5 +1,5 @@
 import axios from "axios";
-const MAIN_URL = "http://3.84.222.249:8080";
+const MAIN_URL = "https://zdn-app.herokuapp.com";
 
 const mainAxios = axios.create({
 	baseURL: MAIN_URL,
