@@ -17,20 +17,21 @@
 				font-size: $fs-h2;
 				color: $cl-primary-50 !important;
 				font-family: $ff-secondary;
+				padding-top: 0.5rem;
 				line-height: 2.5rem;
 			}
 		}
 	}
 
-	&__notif{
-		&__container{
+	&__notif {
+		&__container {
 			height: 80vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		& > h3{
-			color: $cl-main-purple;
-		}
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			& > h3 {
+				color: $cl-main-purple;
+			}
 		}
 	}
 }
