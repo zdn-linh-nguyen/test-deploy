@@ -24,6 +24,8 @@ export default function MapContainer() {
 	const [friends, setFriends] = useState<IFriends[]>([]);
 	const [isFocus, setIsFocus] = useState<boolean>(false);
 
+	console.log(sUser);
+
 	useEffect(() => {
 		async function fetchLocation() {
 			try {

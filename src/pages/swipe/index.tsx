@@ -7,6 +7,7 @@ import Title from "@/components/title";
 import { createLocation } from "@/reducers/mapAction";
 import { userMatch } from "@/reducers/matchAction";
 import { selectRange } from "@/reducers/rangeSlice";
+import { getProfile } from "@/reducers/userAction";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useEffect, useState } from "react";
 import { EffectCreative } from "swiper";
@@ -46,6 +47,7 @@ export default function Swipe() {
 	};
 
 	useEffect(() => {
+		dispatch(getProfile());
 		handlePermission();
 		async function fetchUserAround() {
 			try {
