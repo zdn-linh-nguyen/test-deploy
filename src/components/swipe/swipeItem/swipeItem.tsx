@@ -12,7 +12,7 @@ import {
 import ArrowDownSolidIcon from "@/components/icons/arrowDownSolidIcon";
 import HeartFillIcon from "@/components/icons/heartFillIcon";
 import LocationIcon from "@/components/icons/locaionIcon";
-import Info from "@/components/Info/info";
+import Info from "@/components/info/info";
 import Interests from "@/components/interests/interests";
 import { LazyLoadingImage } from "@/components/loading/lazy";
 import { convertEducation, convertGender, convertReason } from "@/utils/convert";
