@@ -1,3 +1,4 @@
+"use client";
 import mapAPI from "@/api/mapApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { selectRange } from "@/reducers/rangeSlice";
