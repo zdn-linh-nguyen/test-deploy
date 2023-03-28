@@ -1,13 +1,25 @@
-import { IUser } from "@/types/interface";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { memo } from "react";
 import { Marker } from "react-leaflet";
 
-interface Props {
-	info: IUser;
-	onClick?: (user: IUser) => void;
+interface ITests {
+	user: IProfile;
+	long: number;
+	lat: number;
+	distance: number;
 }
+
+interface Props {
+	info: {
+		user: IProfile;
+		long: number;
+		lat: number;
+		distance: number;
+	};
+	onClick?: (user: ITests) => void;
+}
+
 function getIconMarker() {
 	return L.icon({
 		iconUrl: "/Pin.svg",
@@ -23,11 +35,17 @@ function MapMakerFriend({ info, onClick }: Props) {
 				eventHandlers={{
 					click: () => {
 						{
-							onClick && onClick(info);
+							onClick &&
+								onClick({
+									user: info.user,
+									long: info.long,
+									lat: info.lat,
+									distance: info.distance,
+								});
 						}
 					},
 				}}
-				position={[info.lastLocation.latitude, info.lastLocation.longitude]}
+				position={[info.lat, info.long]}
 				icon={getIconMarker()}
 			></Marker>
 		</>

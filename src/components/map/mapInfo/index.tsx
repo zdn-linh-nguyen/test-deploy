@@ -1,10 +1,15 @@
 import { InformationIcon, LocationIcon } from "@/components/icons";
-import { IDataFindFriendsAroundResponse } from "@/types/map";
+import { handleAge } from "@/utils/handleAge";
 import Image from "next/image";
 import styles from "./map-info.module.scss";
 
 interface Props {
-	data: IDataFindFriendsAroundResponse;
+	data: {
+		user: IProfile;
+		long: number;
+		lat: number;
+		distance: number;
+	};
 	onClick: () => void;
 }
 
@@ -13,7 +18,7 @@ export default function MapUserInfo({ data, onClick }: Props) {
 		<div className={styles.container}>
 			<div className={`${styles.container__boxImg} image-container`}>
 				<Image
-					src={data.avatar}
+					src={data.user.avatar || "/assets/images/avatar.png"}
 					className={`image ${styles.container__boxImg__img}}`}
 					alt="avatar"
 					layout="fill"
@@ -21,7 +26,7 @@ export default function MapUserInfo({ data, onClick }: Props) {
 			</div>
 			<div className={styles.container__boxInfo}>
 				<h3 className={styles.container__boxInfo__title}>
-					{data.name.lastName}, {data.age}t
+					{data.user.name}, {handleAge(data.user.birthday)}t
 				</h3>
 				<div className={styles.container__boxInfo__boxLocation}>
 					<LocationIcon />

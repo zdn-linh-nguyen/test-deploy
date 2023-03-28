@@ -3,7 +3,9 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import auth from "../reducers/authSlice";
 import map from "../reducers/mapSlice";
+import match from "../reducers/matchSlice";
 import photo from "../reducers/photoSlice";
+import range from "../reducers/rangeSlice";
 import user from "../reducers/userSlice";
 
 export const store = configureStore({
@@ -12,6 +14,8 @@ export const store = configureStore({
 		map,
 		user,
 		photo,
+		range,
+		match,
 	},
 });
 export type RootState = ReturnType<typeof store.getState>;

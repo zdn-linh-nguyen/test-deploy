@@ -12,7 +12,7 @@ import {
 import ArrowDownSolidIcon from "@/components/icons/arrowDownSolidIcon";
 import HeartFillIcon from "@/components/icons/heartFillIcon";
 import LocationIcon from "@/components/icons/locaionIcon";
-import Info from "@/components/info/info";
+import Info from "@/components/Info/info";
 import Interests from "@/components/interests/interests";
 import { LazyLoadingImage } from "@/components/loading/lazy";
 import { convertEducation, convertGender, convertReason } from "@/utils/convert";
@@ -29,11 +29,11 @@ interface IProps {
 	};
 	isLoading?: boolean;
 	onClose: () => void;
-	onLike: (id: string) => void;
+	onMatch: (id: string) => void;
 	onBlock: (id: string) => void;
 }
 
-export default function SwipeItem({ isLoading, data, onClose, onLike, onBlock }: IProps) {
+export default function SwipeItem({ isLoading, data, onClose, onMatch, onBlock }: IProps) {
 	const [photo, setPhoto] = useState<IPhoto[]>([]);
 
 	useEffect(() => {
@@ -61,7 +61,7 @@ export default function SwipeItem({ isLoading, data, onClose, onLike, onBlock }:
 					IconLoading={<BiLoaderAlt className="animate-spin" />}
 					Icon={<HeartFillIcon />}
 					onClick={() => {
-						onLike(data.user.userId);
+						onMatch(data.user.userId);
 						onClose();
 					}}
 					disabled={isLoading}

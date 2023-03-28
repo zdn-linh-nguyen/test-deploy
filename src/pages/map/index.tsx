@@ -1,33 +1,41 @@
+import mapAPI from "@/api/mapApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
-import { selectMap } from "@/reducers/mapSlice";
-import { IUser } from "@/types/interface";
+import { selectRange } from "@/reducers/rangeSlice";
+import { getProfile } from "@/reducers/userAction";
+import { selectUser } from "@/reducers/userSlice";
 import { IUpdateLocation } from "@/types/map";
-import { data } from "@/utils/data";
 import { toastError } from "@/utils/toast";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
 const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
+interface IFriends {
+	user: IProfile;
+	lat: number;
+	long: number;
+	distance: number;
+}
 export default function MapContainer() {
 	const dispatch = useAppDispatch();
-	const sMap = useAppSelector(selectMap);
+	const sRange = useAppSelector(selectRange);
+	const sUser = useAppSelector(selectUser);
+	const [friends, setFriends] = useState<IFriends[]>([]);
+	const [isFocus, setIsFocus] = useState<boolean>(false);
 
-	// useEffect(() => {
-	// 	// dispatch(getLocation());
-	// 	async function fetchLocation() {
-	// 		try {
-	// 			const mapLocation = await mapAPI.getLocation();
-	// 			console.log(mapLocation);
-	// 		} catch (error) {
-	// 			toastError((error as Error).message);
-	// 		}
-	// 	}
-	// 	fetchLocation();
-	// }, [dispatch]);
-
-	const [friends, setFriends] = useState<IUser[]>(data);
-	const [isFocus, setIsFocus] = useState(false);
+	useEffect(() => {
+		async function fetchLocation() {
+			try {
+				const res = await mapAPI.getLocation(sRange.range);
+				setFriends(res.data);
+			} catch (error) {
+				toastError((error as Error).message);
+			}
+		}
+		fetchLocation();
+		dispatch(getProfile());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const [location, setLocation] = useState<IUpdateLocation>({
 		latitude: 0,
@@ -64,6 +72,7 @@ export default function MapContainer() {
 	return (
 		<>
 			<Map
+				info={sUser}
 				me={location || undefined}
 				// isFocus={isFocus}
 				friends={friends}

@@ -1,6 +1,5 @@
 import mapAPI from "@/api/mapApi";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { resetUser } from "./userSlice";
 
 export const createLocation = createAsyncThunk(
 	"map/createLocation",
@@ -9,7 +8,7 @@ export const createLocation = createAsyncThunk(
 			const mapLocation = await mapAPI.createLogin(_data);
 			return mapLocation;
 		} catch (error) {
-			thunkApi.dispatch(resetUser());
+			// thunkApi.dispatch(resetUser());
 			return thunkApi.rejectWithValue(error);
 		}
 	}

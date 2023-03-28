@@ -12,12 +12,12 @@ import styles from "./user-card.module.scss";
 interface IProps {
 	user: IProfile;
 	onSeen: (user: IData) => () => void;
-	onLike: (_id: string) => void;
+	onMatch: (_id: string) => void;
 	onBlock: (_id: string) => void;
 	distance: number;
 }
 
-export default function UserCard({ user, onBlock, onLike, onSeen, distance }: IProps) {
+export default function UserCard({ user, onBlock, onMatch, onSeen, distance }: IProps) {
 	if (!user) return null;
 
 	return (
@@ -60,7 +60,7 @@ export default function UserCard({ user, onBlock, onLike, onSeen, distance }: IP
 							IconLoading={<BiLoaderAlt className="animate-spin" />}
 							Icon={<HeartFillIcon />}
 							onClick={() => {
-								onLike(user.userId);
+								onMatch(user.userId);
 							}}
 						/>
 					</div>

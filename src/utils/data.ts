@@ -1,6 +1,6 @@
 const data: any = [
 	{
-		_id: "1",
+		userId: "1",
 		name: {
 			firstName: "Thanh",
 			lastName: "Danh",
@@ -16,8 +16,8 @@ const data: any = [
 		avatar: "https://res.cloudinary.com/azurestore/image/upload/v1678717668/avatars/tempInfor_gvy05b.png",
 		age: 26,
 		lastLocation: {
-			latitude: 10.8426492,
-			longitude: 106.716012,
+			latitude: 10.84237,
+			longitude: 106.713473,
 			updatedAt: "2020-01-01T00:00:00.000Z",
 		},
 		distance: 10,
@@ -83,7 +83,7 @@ const data: any = [
 	},
 
 	{
-		_id: "2",
+		userId: "2",
 		name: {
 			firstName: "Thành",
 			lastName: "Ngữ",
@@ -169,7 +169,7 @@ const data: any = [
 	},
 
 	{
-		_id: "3",
+		userId: "3",
 		name: {
 			firstName: "Phan",
 			lastName: "Trọng",
@@ -254,7 +254,7 @@ const data: any = [
 	},
 
 	{
-		_id: "4",
+		userId: "4",
 		name: {
 			firstName: "John",
 			lastName: "Smith",
@@ -338,7 +338,7 @@ const data: any = [
 	},
 
 	{
-		_id: "5",
+		userId: "5",
 		name: {
 			firstName: "Sarah",
 			lastName: "Lee",
@@ -422,7 +422,7 @@ const data: any = [
 	},
 
 	{
-		_id: "6",
+		userId: "6",
 		name: {
 			firstName: "Adam",
 			lastName: "Smith",
@@ -506,7 +506,7 @@ const data: any = [
 	},
 
 	{
-		_id: "7",
+		userId: "7",
 		name: {
 			firstName: "Bé",
 			lastName: "Ba",
@@ -589,7 +589,7 @@ const data: any = [
 	},
 
 	{
-		_id: "8",
+		userId: "8",
 		name: {
 			firstName: "Emily",
 			lastName: "Johnson",
@@ -673,7 +673,7 @@ const data: any = [
 	},
 
 	{
-		_id: "9",
+		userId: "9",
 		name: {
 			firstName: "Andrew",
 			lastName: "Jackson",
@@ -757,7 +757,7 @@ const data: any = [
 	},
 
 	{
-		_id: "10",
+		userId: "10",
 		name: {
 			firstName: "Nhat",
 			lastName: "Linh",
