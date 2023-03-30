@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
-import { createLocation, getLocation } from "./mapAction";
+import { createLocation } from "./mapAction";
 
 interface IInitialState {
 	lat: number;
@@ -26,11 +26,11 @@ const mapSlice = createSlice({
 			state.lat = data.lat;
 			state.long = data.long;
 		});
-		builder.addCase(getLocation.fulfilled, (state, { payload }) => {
-			const { data } = payload;
-			state.lat = data.lat;
-			state.long = data.long;
-		});
+		// builder.addCase(getLocation.fulfilled, (state, { payload }) => {
+		// 	const { data } = payload;
+		// 	state.lat = data.lat;
+		// 	state.long = data.long;
+		// });
 	},
 });
 
