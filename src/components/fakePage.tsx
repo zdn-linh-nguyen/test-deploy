@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 function FakePage() {
 	const isSendRequest = useRef<boolean>(false);
 	const dispatch = useAppDispatch();
+	const api = process.env.API_PUBLIC as string;
 
 	useEffect(() => {
 		function getCurrentUser() {
@@ -18,7 +19,7 @@ function FakePage() {
 
 		!isSendRequest.current && getCurrentUser();
 		const token = localStorage?.getItem("token");
-		const socket = io("http://localhost:8080", {
+		const socket = io(api, {
 			transportOptions: {
 				polling: {
 					extraHeaders: {
