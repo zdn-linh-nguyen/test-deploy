@@ -1,4 +1,5 @@
 import photoAPI from "@/api/photoApi";
+import { useAppDispatch, useAppSelector } from "@/app/store";
 import CircleButton from "@/components/button/circleButton";
 import {
 	AlcoholIcon,
@@ -15,6 +16,10 @@ import LocationIcon from "@/components/icons/locaionIcon";
 import Info from "@/components/info/info";
 import Interests from "@/components/interests/interests";
 import { LazyLoadingImage } from "@/components/loading/lazy";
+import { INoti } from "@/pages/swipe";
+import { addMatch } from "@/reducers/matchSlice";
+import { selectSocket } from "@/reducers/socketSlice";
+import { getProfile } from "@/reducers/userAction";
 import { convertEducation, convertGender, convertReason } from "@/utils/convert";
 import { handleAge } from "@/utils/handleAge";
 import Image from "next/image";
@@ -35,8 +40,20 @@ interface IProps {
 
 export default function SwipeItem({ isLoading, data, onClose, onMatch, onBlock }: IProps) {
 	const [photo, setPhoto] = useState<IPhoto[]>([]);
+	const { socket } = useAppSelector(selectSocket);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		const listenToNoti = async () => {
+			const res = await dispatch(getProfile());
+
+			socket.on(`noti-${res.payload.data.userId}`, (noti: INoti) => {
+				dispatch(addMatch(noti));
+
+				// setNotification((prev) => [...prev, noti]);
+			});
+		};
+		listenToNoti();
 		async function getUserPhoto() {
 			const res = await photoAPI.getTinderPhotos(data.user.userId);
 			setPhoto(res.data);
