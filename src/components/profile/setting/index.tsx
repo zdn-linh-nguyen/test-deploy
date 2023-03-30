@@ -1,12 +1,16 @@
 import { SettingIcon } from "@/components/icons";
+import APP_PATH from "@/constant/appPath";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
+import { useRouter } from "next/router";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import styles from "./setting.module.scss";
 
 export default function Setting() {
+	const router = useRouter();
 	const handleLogout = (): void => {
 		localStorage.removeItem("token");
+		router.push(APP_PATH.ROOT);
 	};
 
 	const items: MenuProps["items"] = [
