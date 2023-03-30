@@ -43,7 +43,7 @@ export default function App({ Component, pageProps: { ...pageProps } }: AppProps
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 				<meta name="description" content="A social network to connect with your friends" />
 				<meta name="keywords" content="Cupidify, social network, friends, connect, social, network" />
-				<link rel="icon" href="/logo.svg" />
+				<link rel="icon" href="/assets/images/cupid.png" />
 			</Head>
 			<Provider store={store}>
 				{!loading ? (

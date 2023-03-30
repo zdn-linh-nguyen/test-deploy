@@ -7,7 +7,6 @@ import { io } from "socket.io-client";
 function FakePage() {
 	const isSendRequest = useRef<boolean>(false);
 	const dispatch = useAppDispatch();
-	const api = process.env.API_PUBLIC as string;
 
 	useEffect(() => {
 		function getCurrentUser() {
@@ -19,7 +18,7 @@ function FakePage() {
 
 		!isSendRequest.current && getCurrentUser();
 		const token = localStorage?.getItem("token");
-		const socket = io(api, {
+		const socket = io("https://zdn-app.herokuapp.com", {
 			transportOptions: {
 				polling: {
 					extraHeaders: {
