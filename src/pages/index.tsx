@@ -12,7 +12,6 @@ import styles from "./home/home.module.scss";
 
 export default function Home() {
 	const router = useRouter();
-
 	const dispatch = useAppDispatch();
 
 	const handleClickPhone = (): void => {

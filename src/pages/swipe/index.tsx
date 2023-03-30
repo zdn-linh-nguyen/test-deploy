@@ -1,4 +1,5 @@
 import mapAPI from "@/api/mapApi";
+import notiApi from "@/api/notiApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { LazyLoadingComponent } from "@/components/loading/lazy";
 import SwipeItem from "@/components/swipe/swipeItem/swipeItem";
@@ -6,8 +7,11 @@ import UserCard from "@/components/swipe/userCard/userCard";
 import Title from "@/components/title";
 import { createLocation } from "@/reducers/mapAction";
 import { userMatch } from "@/reducers/matchAction";
+import { addMatch } from "@/reducers/matchSlice";
 import { selectRange } from "@/reducers/rangeSlice";
+import { selectSocket } from "@/reducers/socketSlice";
 import { getProfile } from "@/reducers/userAction";
+import { selectUser } from "@/reducers/userSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useEffect, useState } from "react";
 import { EffectCreative } from "swiper";
@@ -21,11 +25,28 @@ export interface IData {
 	user: IProfile;
 	distance: number;
 }
+
+export interface INoti {
+	createdAt: Date;
+	fromAvatar: string;
+	fromUserId: string;
+	fromUserName: string;
+	id: string;
+	isSeen: boolean;
+	toAvatar: string;
+	toUserId: string;
+	toUserName: string;
+	type: string;
+}
+
 export default function Swipe() {
 	const sRange = useAppSelector(selectRange);
+	const sUser = useAppSelector(selectUser);
+	const { socket } = useAppSelector(selectSocket);
 
 	const [tinder, setTinder] = useState<IData[]>([]);
 	const [user, setUser] = useState<IData>();
+	const [notification, setNotification] = useState<INoti[]>([]);
 
 	const dispatch = useAppDispatch();
 
@@ -47,7 +68,23 @@ export default function Swipe() {
 	};
 
 	useEffect(() => {
-		dispatch(getProfile());
+		const listenToNoti = async () => {
+			const res = await dispatch(getProfile());
+
+			socket.on(`noti-${res.payload.data.userId}`, (noti: INoti) => {
+				dispatch(addMatch(noti));
+
+				setNotification((prev) => [...prev, noti]);
+			});
+		};
+		listenToNoti();
+
+		const getNotitication = async () => {
+			const notis = await notiApi.getAllNoti();
+			setNotification(notis.data);
+		};
+		getNotitication();
+
 		handlePermission();
 		async function fetchUserAround() {
 			try {
@@ -61,23 +98,16 @@ export default function Swipe() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const handleSeenInfo = (tinder: IData) => () => {
-		setUser(tinder);
-	};
+	const handleSeenInfo = (tinder: IData) => () => setUser(tinder);
+	const handleClose = (): void => setUser(undefined);
 
-	const handleClose = (): void => {
-		setUser(undefined);
-	};
-
-	const handleBlock = async (_id: string) => {
+	const handleBlock = async (id: string) => {
 		if (window.confirm("Bạn có chắc chắn muốn chặn người này?")) {
 			try {
-				const response = await blockAPI.blockUser(_id);
-				if (response.statusCode === 201) {
-					const tinderFilter = tinder?.filter((i) => i.user.userId !== _id);
-					setTinder(tinderFilter);
-					toastSuccess(`Đã chặn người này!`);
-				}
+				await blockAPI.blockUser(id);
+				setTinder([...tinder.filter((user) => user.user.userId !== id)]);
+				setUser(undefined);
+				toastSuccess(`Đã chặn người này! `);
 			} catch (error) {
 				toastError((error as Error).message);
 			}
@@ -86,8 +116,10 @@ export default function Swipe() {
 
 	const handleMatchUser = async (id: string) => {
 		try {
-			await dispatch(userMatch(id));
-			toastSuccess(`Đã thích người này ${id}`);
+			dispatch(userMatch(id));
+			setTinder([...tinder.filter((user) => user.user.userId !== id)]);
+			setUser(undefined);
+			toastSuccess("Bạn đã thích thành công");
 		} catch (error) {
 			toastError((error as Error).message);
 		}
@@ -106,7 +138,8 @@ export default function Swipe() {
 							style={{
 								fontSize: "2.5rem",
 							}}
-						/> */}
+						/>
+						{notification.length} */}
 					</div>
 				}
 			/>

@@ -12,6 +12,7 @@ export default function LikeAvatar({ avatar, onClick }: Props) {
 	function handleClick() {
 		onClick();
 	}
+
 	return (
 		<button className={styles.btn} onClick={handleClick}>
 			<div className={`${styles.btn__container} image-container`}>

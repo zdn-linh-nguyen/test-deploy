@@ -11,6 +11,7 @@ interface IProps {
 	option?: RegisterOptions;
 	error?: string;
 	defaultValue?: string | number;
+	className?: string;
 }
 
 export default function InputField({
@@ -23,10 +24,11 @@ export default function InputField({
 	disabled,
 	error,
 	defaultValue,
+	className,
 }: IProps) {
 	return (
-		<div className={styles.container}>
-			<div className={styles.content}>
+		<div className={`${styles.container} `}>
+			<div className={`${styles.content} ${className}`}>
 				<label htmlFor={label}>
 					<span className={styles.content__title}>{label}</span>
 					{option?.required && <span className={styles.content__danger}>*</span>}

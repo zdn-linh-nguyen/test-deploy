@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import {
-  AlcoholIcon,
-  EducationIcon,
-  GenderIcon,
-  HeightIcon,
-  ReligionIcon,
-  UploadImageIcon,
+	AlcoholIcon,
+	EducationIcon,
+	GenderIcon,
+	HeightIcon,
+	ReligionIcon,
+	UploadImageIcon,
 } from "@/components/icons";
 import Interests from "@/components/interests/interests";
 import { LazyLoadingImage } from "@/components/loading/lazy";
@@ -21,15 +21,9 @@ import Title from "@/components/title";
 import APP_PATH from "@/constant/appPath";
 import { getListPhoto } from "@/reducers/photoAction";
 import { selectPhoto } from "@/reducers/photoSlice";
-import { getProfile } from "@/reducers/userAction";
 import { selectUser } from "@/reducers/userSlice";
 import { convertGender, convertReason } from "@/utils/convert";
-import {
-  drinkingOptions,
-  educationOptions,
-  genderOptions,
-  religionOptions,
-} from "@/utils/data";
+import { drinkingOptions, educationOptions, genderOptions, religionOptions } from "@/utils/data";
 import { handleAge } from "@/utils/handleAge";
 
 import { toastError, toastSuccess } from "@/utils/toast";
@@ -74,10 +68,8 @@ export default function Profile() {
 	const handleOpenInterestsDialog = (): void => setIsOpenInterestsDialog(true);
 	const handleCloseInterestsDialog = (): void => setIsOpenInterestsDialog(false);
 
-	// Call API For Profile
 	useEffect(() => {
 		dispatch(getListPhoto());
-		dispatch(getProfile());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -178,79 +170,73 @@ export default function Profile() {
 						onClick={handleOpenBioDialog}
 					/>
 				</div>
-				 <div className={styles.profile__more}>
-          <SingleGroup
-            icon={<AlcoholIcon />}
-            title="Rượu bia"
-            desc={
-              sUser.drinking
-                ? "Có"
-                : sUser.drinking === false
-                ? "Không"
-                : "Vui lòng chọn"
-            }
-            options={drinkingOptions}
-            onChange={(value: string) => {
-              try {
-                profileAPI.updateProfile({
-                  drinking: value === "YES" ? true : false,
-                });
-                toastSuccess("Cập nhật thông tin thành công!");
-              } catch (err) {
-                toastError("Cập nhật thông tin thất bại!");
-              }
-            }}
-          />
-          <SingleGroup
-            icon={<GenderIcon />}
-            title="Giới tính"
-            desc={sUser.gender ? convertGender(sUser.gender) : "Vui lòng chọn"}
-            options={genderOptions}
-            onChange={(value: string) => {
-              try {
-                profileAPI.updateProfile({ gender: value });
-                toastSuccess("Cập nhật thông tin thành công!");
-              } catch (err) {
-                toastError("Cập nhật thông tin thất bại!");
-              }
-            }}
-          />
-          <SingleGroup
-            icon={<ReligionIcon />}
-            title="Tôn giáo"
-            desc={sUser.religion !== "" ? sUser.religion : "Không"}
-            options={religionOptions}
-            onChange={(value: string) => {
-              try {
-                profileAPI.updateProfile({ religion: value });
-                toastSuccess("Cập nhật thông tin thành công!");
-              } catch (err) {
-                toastError("Cập nhật thông tin thất bại!");
-              }
-            }}
-          />
-          <SingleGroup
-            icon={<EducationIcon />}
-            title="Học vấn"
-            desc={sUser.education ? sUser.education : "Không"}
-            options={educationOptions}
-            onChange={(value: string) => {
-              try {
-                profileAPI.updateProfile({ education: value });
-                toastSuccess("Cập nhật thông tin thành công!");
-              } catch (err) {
-                toastError("Cập nhật thông tin thất bại!");
-              }
-            }}
-          />
-          <SingleGroup
-            icon={<HeightIcon />}
-            title="Chiều cao"
-            desc={sUser.height ? sUser.height + "cm" : "Cập nhật chiều cao"}
-            onClick={handleOpenHeightDialog}
-            isHeight
-          />
-        </div>
+				<div className={styles.profile__more}>
+					<SingleGroup
+						icon={<AlcoholIcon />}
+						title="Rượu bia"
+						desc={sUser.drinking ? "Có" : sUser.drinking === false ? "Không" : "Vui lòng chọn"}
+						options={drinkingOptions}
+						onChange={(value: string) => {
+							try {
+								profileAPI.updateProfile({
+									drinking: value === "YES" ? true : false,
+								});
+								toastSuccess("Cập nhật thông tin thành công!");
+							} catch (err) {
+								toastError("Cập nhật thông tin thất bại!");
+							}
+						}}
+					/>
+					<SingleGroup
+						icon={<GenderIcon />}
+						title="Giới tính"
+						desc={sUser.gender ? convertGender(sUser.gender) : "Vui lòng chọn"}
+						options={genderOptions}
+						onChange={(value: string) => {
+							try {
+								profileAPI.updateProfile({ gender: value });
+								toastSuccess("Cập nhật thông tin thành công!");
+							} catch (err) {
+								toastError("Cập nhật thông tin thất bại!");
+							}
+						}}
+					/>
+					<SingleGroup
+						icon={<ReligionIcon />}
+						title="Tôn giáo"
+						desc={sUser.religion ? sUser.religion : "Vui lòng chọn"}
+						options={religionOptions}
+						onChange={(value: string) => {
+							try {
+								profileAPI.updateProfile({ religion: value });
+								toastSuccess("Cập nhật thông tin thành công!");
+							} catch (err) {
+								toastError("Cập nhật thông tin thất bại!");
+							}
+						}}
+					/>
+					<SingleGroup
+						icon={<EducationIcon />}
+						title="Học vấn"
+						desc={sUser.education ? sUser.education : "Không"}
+						options={educationOptions}
+						onChange={(value: string) => {
+							try {
+								profileAPI.updateProfile({ education: value });
+								toastSuccess("Cập nhật thông tin thành công!");
+							} catch (err) {
+								toastError("Cập nhật thông tin thất bại!");
+							}
+						}}
+					/>
+					<SingleGroup
+						icon={<HeightIcon />}
+						title="Chiều cao"
+						desc={sUser.height ? sUser.height + "cm" : "Cập nhật chiều cao"}
+						onClick={handleOpenHeightDialog}
+						isHeight
+					/>
+				</div>
 
 				<div className={styles.profile__interests}>
 					<div className={styles.profile__interests__container}>

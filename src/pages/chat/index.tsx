@@ -1,25 +1,43 @@
+import matchAPI from "@/api/matchApi";
 import Button from "@/components/button/button";
 import Conversation from "@/components/chat/convensation";
 import Like from "@/components/chat/like/like";
 import Title from "@/components/title";
 import APP_PATH from "@/constant/appPath";
-import { conversation, match } from "@/utils/data";
-import { generateFullName } from "@/utils/generateFullname";
+import { conversation } from "@/utils/data";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/scrollbar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./chat.module.scss";
 
+interface IMatched {
+	avatar: string | null;
+	name: string;
+	userId: string;
+}
+
 export default function Chat() {
 	const router = useRouter();
+	const [matched, setMatched] = useState<IMatched[]>([]);
 
-	const handleClick = (_id: string) => (): void => {
-		router.push(`${APP_PATH.CHAT}/${_id}`);
+	useEffect(() => {
+		async function getListMatch() {
+			const res = await matchAPI.getMyMatch();
+			setMatched(res.data);
+		}
+		getListMatch();
+	}, []);
+
+	const handleClick = (id: string) => (): void => {
+		router.push(`${APP_PATH.CHAT}/${id}`);
 	};
 
-	const handleLike = (): void => console.log(1);
+	const handleChatOpen = (id: string) => (): void => {
+		router.push(`${APP_PATH.CHAT}/${id}`);
+	};
 
 	return (
 		<section className={`${styles.chat} container bg-white`}>
@@ -32,25 +50,27 @@ export default function Chat() {
 				}
 			/>
 			<div className={styles.chat__boxFriend}>
-				{match.length > 0 ? (
+				{matched.length ? (
 					<>
 						<p className={styles.chat__boxFriend__title}>Danh sách bạn bè</p>
 						<Swiper spaceBetween={16} slidesPerView={3.5}>
-							{match.map((i: any) => (
-								<SwiperSlide key={i.id} className="p-1">
-									<Like avatar={i.avatar} onClick={handleLike} />
+							{matched.map((i: IMatched) => (
+								<SwiperSlide key={i.userId} className="p-1">
+									<Like
+										avatar={i.avatar ? i.avatar : "/assets/images/avatar.png"}
+										onClick={handleChatOpen(i.userId)}
+									/>
 								</SwiperSlide>
 							))}
 						</Swiper>
 
-						{/* conversation */}
 						<h5 className={styles.chat__boxFriend__conversation__title}>Trò chuyện</h5>
 						<ul className={styles.chat__boxFriend__conversation__box}>
 							{conversation.map((item: any) => {
 								if (item.messages.length > 0) {
 									return (
 										<Conversation
-											name={generateFullName(item.users[0].name)}
+											name="Haloha"
 											avatar={item.users[0].avatar}
 											key={item.id}
 											onClick={handleClick(item?.id)}

@@ -5,7 +5,6 @@ import { ArrowLeft, ArrowRightIcon, HeartCircleIcon, SendIcon, SetIcon } from "@
 import Title from "@/components/title";
 import APP_PATH from "@/constant/appPath";
 import { conversation } from "@/utils/data";
-import { generateFullName } from "@/utils/generateFullname";
 import { EmojiStyle } from "emoji-picker-react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -49,6 +48,7 @@ export default function Room() {
 	const onBack = (): void => {
 		router.push(APP_PATH.CHAT);
 	};
+
 	const classBoxChat = () => {
 		let className = "[calc(100vh - 223px)]";
 		if (files.length !== 0) {
@@ -82,7 +82,7 @@ export default function Room() {
 					<div className={`${styles.room__info__container__boxImage} image-container`}>
 						<Image
 							className="image"
-							src={res?.users[0].avatar as string}
+							src={res?.users[0].avatar ? res?.users[0].avatar : "/assets/images/avatar.png"}
 							alt="avatar"
 							layout="fill"
 						/>
@@ -91,9 +91,7 @@ export default function Room() {
 						</div>
 					</div>
 					<div className={styles.room__info__container__name}>
-						<p className={styles.room__info__container__name__title}>
-							{generateFullName(res?.users[0].name)}
-						</p>
+						<p className={styles.room__info__container__name__title}>Linh</p>
 						<span className={styles.room__info__container__name__status}>
 							{isFriendOnline ? (
 								<span className={styles.room__info__container__name__status__online}>

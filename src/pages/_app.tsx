@@ -1,4 +1,5 @@
 import { store } from "@/app/store";
+import FakePage from "@/components/fakePage";
 import Loading from "@/components/loading";
 import ProtectRoute from "@/components/routes/protectRoute";
 import ScreenRoute from "@/components/routes/screenRoute";
@@ -47,7 +48,7 @@ export default function App({ Component, pageProps: { ...pageProps } }: AppProps
 			<Provider store={store}>
 				{!loading ? (
 					<ScreenRoute>
-						{/* <ProtectRoute>{getLayout(<Component {...pageProps} />)}</ProtectRoute> */}
+						<FakePage />
 						{Component.protected ? (
 							<ProtectRoute isToken={Component.protected.isToken}>
 								{getLayout(<Component {...pageProps} />)}

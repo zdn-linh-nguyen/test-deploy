@@ -1,5 +1,8 @@
+import { useAppSelector } from "@/app/store";
+import { selectMatch } from "@/reducers/matchSlice";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Matching from "../match";
 
 interface IProps {
 	children: React.ReactNode;
@@ -9,7 +12,7 @@ interface IProps {
 
 export default function ProtectRoute({ children, adminOnly, isToken }: IProps) {
 	const router = useRouter();
-	// const sUser = useAppSelector(selectUser);
+	const sMatch = useAppSelector(selectMatch).isShow;
 
 	useEffect(() => {
 		if (!localStorage.getItem("token")) {
@@ -24,5 +27,10 @@ export default function ProtectRoute({ children, adminOnly, isToken }: IProps) {
 	// 	router.push("/notfound");
 	// }
 
-	return <>{children}</>;
+	return (
+		<>
+			{sMatch && <Matching />}
+			{children}
+		</>
+	);
 }

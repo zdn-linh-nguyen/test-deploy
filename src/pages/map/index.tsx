@@ -39,8 +39,7 @@ export default function MapContainer() {
 			}
 		}
 		fetchLocation();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [sRange.range]);
 
 	const [location, setLocation] = useState<IUpdateLocation>({
 		latitude: 0,
@@ -69,9 +68,6 @@ export default function MapContainer() {
 
 	useEffect(() => {
 		handlePermission();
-		// 	setFriends([]);
-		// return () => {
-		// };
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (

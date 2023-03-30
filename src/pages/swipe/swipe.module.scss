@@ -6,8 +6,8 @@
 	padding: 0 1rem;
 
 	&__box {
-		padding-block: 7px !important;
-		margin-bottom: 1.5rem;
+		margin-bottom: 1rem;
+		padding-bottom: 7px !important;
 
 		&__wrap {
 			@include flex(center, space-between);

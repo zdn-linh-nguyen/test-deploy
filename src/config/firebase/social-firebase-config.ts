@@ -1,19 +1,15 @@
-// Import the functions you need from the SDKs you need
 import userAPI from "@/api/userApi";
 import { ISocialLoginData } from "@/types/interface";
 import { initializeApp } from "firebase/app";
 import { FacebookAuthProvider, getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyAw_97atjB5x75mXoeARnfuatwCFV8inS8",
-	authDomain: "dinder-2-23a23.firebaseapp.com",
-	projectId: "dinder-2-23a23",
-	storageBucket: "dinder-2-23a23.appspot.com",
-	messagingSenderId: "682548161020",
-	appId: "1:682548161020:web:3016c0e78c1e366e6fea79",
+	apiKey: process.env.FIREBASE_KEY,
+	authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.FIREBASE_PROJECT_ID,
+	storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.FIREBASE_APP_ID,
 	// apiKey: "AIzaSyBJ7ZO4cuYd-rvEMAp_RANMEf8e5YpN7Vc",
 	// authDomain: "dinder-36863.firebaseapp.com",
 	// projectId: "dinder-36863",
@@ -22,7 +18,6 @@ const firebaseConfig = {
 	// appId: "1:268317355008:web:7c956ea1307ca637073ce5",
 };
 
-// Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
 
 export const authentication = getAuth(firebase);
@@ -35,7 +30,7 @@ export const signInWithGoogle = async (): Promise<ISocialLoginData> => {
 		const res = await signInWithPopup(authentication, googleProvider);
 		const { displayName, email, uid } = res.user;
 
-		const checkRes = await userAPI.checkSocial(res.user.uid);
+		const checkRes = await userAPI.checkSocial(uid);
 
 		return {
 			name: displayName,
@@ -56,7 +51,7 @@ export const signInWithFacebook = async (): Promise<ISocialLoginData> => {
 		const res = await signInWithPopup(authentication, facebookProvider);
 		const { displayName, email, uid } = res.user;
 
-		const checkRes = await userAPI.checkSocial(res.user.uid);
+		const checkRes = await userAPI.checkSocial(uid);
 
 		return {
 			name: displayName,

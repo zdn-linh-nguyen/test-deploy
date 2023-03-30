@@ -8,7 +8,7 @@
 
 	&__title {
 		flex-shrink: 0;
-		padding-block: 2px;
+		// margin-bottom: 1rem;
 
 		&__container {
 			@include flex(center, space-between);

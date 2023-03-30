@@ -1,8 +1,7 @@
 import axios from "axios";
-const MAIN_URL = "https://zdn-app.herokuapp.com";
 
 const mainAxios = axios.create({
-	baseURL: MAIN_URL,
+	baseURL: process.env.API_PUBLIC,
 });
 
 axios.defaults.headers.post["Content-Type"] = "application/json";

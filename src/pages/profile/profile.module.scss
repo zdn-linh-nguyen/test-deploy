@@ -5,8 +5,6 @@
 	padding-bottom: 6rem;
 
 	&__box {
-		margin-bottom: 0.5rem;
-
 		&__wrap {
 			@include flex(center, space-between);
 			padding-block: 11px;
@@ -29,7 +27,6 @@
 				border-radius: 0.75rem;
 				width: 2.5rem;
 				height: 2.5rem;
-				object-fit: cover;
 			}
 
 			&__icon {
@@ -67,7 +64,7 @@
 	&__boxImage {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		margin-block: 1.5rem;
+		margin-bottom: 2rem;
 		gap: 0.625rem;
 
 		&__upload {

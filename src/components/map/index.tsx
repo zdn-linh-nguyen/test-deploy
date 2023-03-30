@@ -38,16 +38,15 @@ interface IUserInFo {
 
 export default function Map({ me, isFocus, handleFocus, friends, setFriends, info }: Props) {
 	const sRange = useAppSelector(selectRange);
-	const dispatch = useAppDispatch();
+
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [userInfo, setUserInfo] = useState<IUserInFo>();
-
 	const [isOpenRangeDialog, setIsOpenRangeDialog] = useState<boolean>(false);
 
-	const handleOpenRangeDialog = (): void => {
-		setIsOpenRangeDialog(true);
-	};
+	const dispatch = useAppDispatch();
+
+	const handleOpenRangeDialog = (): void => setIsOpenRangeDialog(true);
 	const handleCloseRangeDialog = (): void => setIsOpenRangeDialog(false);
 
 	const saveUserInfo = (user: any) => {
@@ -58,9 +57,8 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 			distance: user.distance,
 		});
 	};
-	const handleClose = () => {
-		setIsOpen(false);
-	};
+	const handleClose = (): void => setIsOpen(false);
+
 	const handleMatch = async (id: string) => {
 		setIsLoading(true);
 		try {
@@ -80,7 +78,7 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 				await blockAPI.blockUser(id);
 				setFriends([...friends.filter((user) => user.user.userId !== id)]);
 				setUserInfo(undefined);
-				toastSuccess(`Đã chặn người này!`);
+				toastSuccess(`Đã chặn người này! `);
 			} catch (error) {
 				toastError((error as Error).message);
 			}

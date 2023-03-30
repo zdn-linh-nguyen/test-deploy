@@ -1,6 +1,7 @@
 @import "./variables";
-@import "./reset.scss";
+@import "./reset";
 @import "./mixins";
+@import "./match";
 
 body * {
 	font-family: $ff-primary;
@@ -222,5 +223,17 @@ h4 {
 	}
 	100% {
 		filter: hue-rotate(360deg) brightness(1);
+	}
+}
+
+.animate-ping {
+	animation: animate-ping 1.5s cubic-bezier(0, 0, 1, 1) infinite;
+}
+
+@keyframes animate-ping {
+	75%,
+	100% {
+		transform: scale(2);
+		opacity: 0;
 	}
 }

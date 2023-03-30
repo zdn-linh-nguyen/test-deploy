@@ -1,4 +1,3 @@
-//so sánh 2 ngày theo phút
 export const compareDateToMinutes = (date1: Date, date2: Date) => {
 	return (
 		date1.getDate() === date2.getDate() &&

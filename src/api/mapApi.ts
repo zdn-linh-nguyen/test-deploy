@@ -10,7 +10,11 @@ const mapAPI = {
   },
 
   getLocation: (range: number) => {
-    return mainAxios.post(`${ENDPOINT}/get-within`, { range });
+    return mainAxios.get(`${ENDPOINT}/get-within`, {
+      params: {
+        range,
+      },
+    });
   },
 };
 export default mapAPI;

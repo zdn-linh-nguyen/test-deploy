@@ -1,5 +1,4 @@
 export interface IUserGender {
-	// id: string;
 	name: string;
 }
 
@@ -10,7 +9,6 @@ interface IUserStatus {
 }
 
 export interface IUserInterests {
-	// id: string;
 	name: string;
 }
 
@@ -23,7 +21,15 @@ export interface IUserMatch {
 	id: string;
 	email: string;
 	avatar: string;
-	name: IUserName;
+	name: string;
+	isSeen: boolean;
+	userFromId: string;
+	userToId: string;
+	fromUserName: string;
+	toUserName: string;
+	fromAvatar: string;
+	toAvatar: string;
+	type: string;
 }
 
 export interface IUserLocation {
