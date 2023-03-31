@@ -34,120 +34,129 @@ import profileAPI from "../../api/profileApi";
 import styles from "./profile.module.scss";
 
 export default function Profile() {
-	const sUser = useAppSelector(selectUser);
-	const sPhoto = useAppSelector(selectPhoto);
+  const sUser = useAppSelector(selectUser);
+  const sPhoto = useAppSelector(selectPhoto);
 
-	const [isOpenWhyDialog, setIsOpenWhyDialog] = useState<boolean>(false);
-	const [isOpenBioDialog, setIsOpenBioDialog] = useState<boolean>(false);
-	const [isOpenHeightDialog, setIsOpenHeightDialog] = useState<boolean>(false);
-	const [isOpenInterestsDialog, setIsOpenInterestsDialog] = useState(false);
+  const [isOpenWhyDialog, setIsOpenWhyDialog] = useState<boolean>(false);
+  const [isOpenBioDialog, setIsOpenBioDialog] = useState<boolean>(false);
+  const [isOpenHeightDialog, setIsOpenHeightDialog] = useState<boolean>(false);
+  const [isOpenInterestsDialog, setIsOpenInterestsDialog] = useState(false);
 
-	const router = useRouter();
-	const dispatch = useAppDispatch();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
-	const handleUpdateInfo = (): void => {
-		router.push(APP_PATH.UPDATE_COMMON_INFO);
-	};
-	const handleUploadFile = (): void => {
-		router.push(APP_PATH.UPLOAD_IMAGE);
-	};
+  const handleUpdateInfo = (): void => {
+    router.push(APP_PATH.UPDATE_COMMON_INFO);
+  };
+  const handleUploadFile = (): void => {
+    router.push(APP_PATH.UPLOAD_IMAGE);
+  };
 
-	const handleViewAlbums = (): void => {
-		router.push(APP_PATH.ALBUMS);
-	};
+  const handleViewAlbums = (): void => {
+    router.push(APP_PATH.ALBUMS);
+  };
 
-	const handleOpenWhyDialog = (): void => setIsOpenWhyDialog(true);
-	const handleCloseWhyDialog = (): void => setIsOpenWhyDialog(false);
+  const handleOpenWhyDialog = (): void => setIsOpenWhyDialog(true);
+  const handleCloseWhyDialog = (): void => setIsOpenWhyDialog(false);
 
-	const handleOpenBioDialog = (): void => setIsOpenBioDialog(true);
-	const handleCloseBioDialog = (): void => setIsOpenBioDialog(false);
+  const handleOpenBioDialog = (): void => setIsOpenBioDialog(true);
+  const handleCloseBioDialog = (): void => setIsOpenBioDialog(false);
 
-	const handleOpenHeightDialog = (): void => setIsOpenHeightDialog(true);
-	const handleCloseHeightDialog = (): void => setIsOpenHeightDialog(false);
+  const handleOpenHeightDialog = (): void => setIsOpenHeightDialog(true);
+  const handleCloseHeightDialog = (): void => setIsOpenHeightDialog(false);
 
-	const handleOpenInterestsDialog = (): void => setIsOpenInterestsDialog(true);
-	const handleCloseInterestsDialog = (): void => setIsOpenInterestsDialog(false);
+  const handleOpenInterestsDialog = (): void => setIsOpenInterestsDialog(true);
+  const handleCloseInterestsDialog = (): void =>
+    setIsOpenInterestsDialog(false);
 
 	useEffect(() => {
 		dispatch(getListPhoto());
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	return (
-		<>
-			<BioDialog isOpen={isOpenBioDialog} onClose={handleCloseBioDialog} bio={sUser.description} />
-			<WhyDialog isOpen={isOpenWhyDialog} onClose={handleCloseWhyDialog} reason={sUser.reason} />
-			<InterestsDiaLog
-				isOpen={isOpenInterestsDialog}
-				onClose={handleCloseInterestsDialog}
-				interests={sUser.interests}
-			/>
-			<HeightDialog
-				isOpen={isOpenHeightDialog}
-				onClose={handleCloseHeightDialog}
-				height={sUser.height}
-			/>
+  return (
+    <>
+      <BioDialog
+        isOpen={isOpenBioDialog}
+        onClose={handleCloseBioDialog}
+        bio={sUser.description}
+      />
+      <WhyDialog
+        isOpen={isOpenWhyDialog}
+        onClose={handleCloseWhyDialog}
+        reason={sUser.reason}
+      />
+      <InterestsDiaLog
+        isOpen={isOpenInterestsDialog}
+        onClose={handleCloseInterestsDialog}
+        interests={sUser.interests}
+      />
+      <HeightDialog
+        isOpen={isOpenHeightDialog}
+        onClose={handleCloseHeightDialog}
+        height={sUser.height}
+      />
 
-			<section className={`${styles.profile} container bg-white`}>
-				<Title
-					className={styles.profile__box}
-					content={
-						<div className={styles.profile__box__wrap}>
-							<h2>Tài khoản</h2>
-							<Setting />
-						</div>
-					}
-				/>
-				<div className={styles.profile__content}>
-					<div className={styles.profile__content__info}>
-						<LazyLoadingImage
-							src={sUser.avatar ? sUser.avatar : "/assets/images/avatar.png"}
-							alt="avatar"
-							className={styles.profile__content__info__img}
-							width={40}
-							height={40}
-						/>
-						<div className={styles.profile__content__info__name}>
-							<h3 className={styles.profile__content__info__name__title}>
-								{sUser.name}, {handleAge(sUser.birthday)}
-							</h3>
-							<span className={styles.profile__content__info__name__reason}>
-								{sUser.reason ? `"${convertReason(sUser.reason)}"` : ""}
-							</span>
-						</div>
-					</div>
-					<button onClick={handleUpdateInfo}>
-						<HiPencil fill="#7a56fe" size={24} />
-					</button>
-				</div>
+      <section className={`${styles.profile} container bg-white`}>
+        <Title
+          className={styles.profile__box}
+          content={
+            <div className={styles.profile__box__wrap}>
+              <h2>Tài khoản</h2>
+              <Setting />
+            </div>
+          }
+        />
+        <div className={styles.profile__content}>
+          <div className={styles.profile__content__info}>
+            <LazyLoadingImage
+              src={sUser.avatar ? sUser.avatar : "/assets/images/avatar.png"}
+              alt="avatar"
+              className={styles.profile__content__info__img}
+              width={40}
+              height={40}
+            />
+            <div className={styles.profile__content__info__name}>
+              <h3 className={styles.profile__content__info__name__title}>
+                {sUser.name}, {handleAge(sUser.birthday)}
+              </h3>
+              <span className={styles.profile__content__info__name__reason}>
+                {sUser.reason ? `"${convertReason(sUser.reason)}"` : ""}
+              </span>
+            </div>
+          </div>
+          <button onClick={handleUpdateInfo}>
+            <HiPencil fill="#7a56fe" size={24} />
+          </button>
+        </div>
 
-				<div className={styles.profile__boxImage}>
-					{sPhoto.map((image, index, albums) =>
-						index === 0 ? (
-							<AlbumsItem
-								key={image.publicId}
-								url={image.photoUrl}
-								firstImage
-								onClick={handleViewAlbums}
-							/>
-						) : index > 0 && index < 4 ? (
-							<AlbumsItem
-								key={image.publicId}
-								url={image.photoUrl}
-								middleImage
-								onClick={handleViewAlbums}
-							/>
-						) : (
-							index === 4 && (
-								<AlbumsItem
-									key={image.publicId}
-									url={image.photoUrl}
-									anotherImages={albums.length - 5}
-									onClick={handleViewAlbums}
-								/>
-							)
-						)
-					)}
+        <div className={styles.profile__boxImage}>
+          {sPhoto.map((image, index, albums) =>
+            index === 0 ? (
+              <AlbumsItem
+                key={image.publicId}
+                url={image.photoUrl}
+                firstImage
+                onClick={handleViewAlbums}
+              />
+            ) : index > 0 && index < 4 ? (
+              <AlbumsItem
+                key={image.publicId}
+                url={image.photoUrl}
+                middleImage
+                onClick={handleViewAlbums}
+              />
+            ) : (
+              index === 4 && (
+                <AlbumsItem
+                  key={image.publicId}
+                  url={image.photoUrl}
+                  anotherImages={albums.length - 5}
+                  onClick={handleViewAlbums}
+                />
+              )
+            )
+          )}
 
 					<div onClick={handleUploadFile} className={styles.profile__boxImage__upload}>
 						<UploadImageIcon />
@@ -238,24 +247,26 @@ export default function Profile() {
 					/>
 				</div>
 
-				<div className={styles.profile__interests}>
-					<div className={styles.profile__interests__container}>
-						<h5>Sở thích</h5>
-						<button onClick={handleOpenInterestsDialog}>Chỉnh sửa</button>
-					</div>
-					<div className={styles.profile__interests__list}>
-						{sUser.interests ? (
-							sUser.interests.map((interest, i) => <Interests key={i} title={interest} />)
-						) : (
-							<>
-								<Interests title="Chưa có sở thích" />
-							</>
-						)}
-					</div>
-				</div>
-			</section>
-		</>
-	);
+        <div className={styles.profile__interests}>
+          <div className={styles.profile__interests__container}>
+            <h5>Sở thích</h5>
+            <button onClick={handleOpenInterestsDialog}>Chỉnh sửa</button>
+          </div>
+          <div className={styles.profile__interests__list}>
+            {sUser.interests ? (
+              sUser.interests.map((interest, i) => (
+                <Interests key={i} title={interest} />
+              ))
+            ) : (
+              <>
+                <Interests title="Chưa có sở thích" />
+              </>
+            )}
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
 
 Profile.protected = true;
