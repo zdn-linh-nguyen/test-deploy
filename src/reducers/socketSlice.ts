@@ -7,7 +7,7 @@ interface ISocket {
 }
 
 const initialState: ISocket = {
-	socket: io("https://zdn-app.herokuapp.com", {
+	socket: io(process.env.API_PUBLIC as string, {
 		transportOptions: {
 			polling: {
 				extraHeaders: {

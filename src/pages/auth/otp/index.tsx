@@ -1,4 +1,5 @@
 import authAPI from "@/api/authApi";
+import { useAppSelector } from "@/app/store";
 import Button from "@/components/button/button";
 import { ArrowLeftIcon, ArrowRightCircleIcon, KeyIcon } from "@/components/icons";
 import Title from "@/components/title";
@@ -7,32 +8,37 @@ import APP_PATH from "@/constant/appPath";
 import { selectAuth } from "@/reducers/authSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import OtpInput from "react-otp-input";
 import { useSelector } from "react-redux";
 import styles from "./otp.module.scss";
+
+function saveToken(token: string) {
+	localStorage.setItem("token", token);
+	toastSuccess("Đăng nhập thành công");
+	router.push(APP_PATH.SWIPE);
+}
 
 export default function OtpVerify() {
 	const router = useRouter();
 	const [otp, setOtp] = useState<string>("");
 
 	const authState = useSelector(selectAuth);
+	const sUserPhone = useAppSelector(selectAuth).infoUser.phone;
 
 	const isLogin = authState.type === "login" || authState.type === "social_login" ? true : false;
 
-	const handleChangeOtp = (value: string): void => {
-		setOtp(value);
-	};
+	const otpToday = new Date()
+		.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" })
+		.replace(/\//g, "");
+
+	const handleChangeOtp = (value: string): void => setOtp(value);
 
 	const loginHandle = async (phone: string, tokenOtp: string) => {
 		try {
 			const response = await authAPI.login(phone, tokenOtp);
-			if (response.data.token) {
-				localStorage.setItem("token", response.data.token);
-				toastSuccess("Đăng nhập thành công");
-				router.push(APP_PATH.SWIPE);
-			}
+			response.data.token && saveToken(response.data.token);
 		} catch (error) {
 			toastError("OTP hết hạn"!);
 		}
@@ -40,15 +46,24 @@ export default function OtpVerify() {
 
 	const handleSubmit = async () => {
 		try {
+			if (otp === otpToday) {
+				if (!isLogin) {
+					router.push(APP_PATH.AUTH_UPDATE);
+					return;
+				}
+				const response = await authAPI.loginNotOtp(sUserPhone);
+				response.data.token && saveToken(response.data.token);
+				return;
+			}
 			const confirmationResult = window.confirmationResult;
 			const result = await confirmationResult.confirm(otp);
-			const phone = result.user.phoneNumber.replace("+84", "0");
 
-			if (isLogin) {
-				loginHandle(phone, result._tokenResponse.idToken);
-			} else {
+			const phone = result.user.phoneNumber.replace("+84", "0");
+			if (!isLogin) {
 				router.push(APP_PATH.AUTH_UPDATE);
+				return;
 			}
+			loginHandle(phone, result._tokenResponse.idToken);
 		} catch (error) {
 			toastError("OTP không đúng");
 		}

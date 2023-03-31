@@ -1,13 +1,11 @@
-import { useAppDispatch, useAppSelector } from "@/app/store";
+import { useAppDispatch } from "@/app/store";
 import { setSocket } from "@/reducers/socketSlice";
 import { getProfile } from "@/reducers/userAction";
-import { selectUser } from "@/reducers/userSlice";
 import React, { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 
 function FakePage() {
 	const isSendRequest = useRef<boolean>(false);
-	const sUser = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -20,7 +18,7 @@ function FakePage() {
 
 		!isSendRequest.current && getCurrentUser();
 		const token = localStorage?.getItem("token");
-		const socket = io("https://zdn-app.herokuapp.com", {
+		const socket = io(process.env.API_PUBLIC as string, {
 			transportOptions: {
 				polling: {
 					extraHeaders: {

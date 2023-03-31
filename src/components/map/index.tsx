@@ -2,11 +2,13 @@ import blockAPI from "@/api/blockApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { userMatch } from "@/reducers/matchAction";
 import { selectRange } from "@/reducers/rangeSlice";
-import { IUser, IUserLocation } from "@/types/interface";
+import { IUserLocation } from "@/types/interface";
 import { toastError, toastSuccess } from "@/utils/toast";
 import "leaflet/dist/leaflet.css";
 import { Dispatch, useState } from "react";
+import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { Circle, MapContainer, TileLayer } from "react-leaflet";
+import { LocationIcon } from "../icons";
 import RangeIcon from "../icons/rangeIcon";
 import SwipeItem from "../swipe/swipeItem/swipeItem";
 import RangeDialog from "./dialog/range";
@@ -29,13 +31,6 @@ interface Props {
 	setFriends: Dispatch<any>;
 }
 
-interface IUserInFo {
-	user: IProfile;
-	long: number;
-	lat: number;
-	distance: number;
-}
-
 export default function Map({ me, isFocus, handleFocus, friends, setFriends, info }: Props) {
 	const sRange = useAppSelector(selectRange);
 
@@ -49,7 +44,7 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 	const handleOpenRangeDialog = (): void => setIsOpenRangeDialog(true);
 	const handleCloseRangeDialog = (): void => setIsOpenRangeDialog(false);
 
-	const saveUserInfo = (user: any) => {
+	const saveUserInfo = (user: IUserInFo) => {
 		setUserInfo({
 			user: user.user,
 			long: user.long,
@@ -84,44 +79,37 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 			}
 		}
 	};
-	const handleNext = (currentPerson: IUser | undefined) => () => {
-		// if (!currentPerson) {
-		// 	setUserInfo(friends[0]);
-		// } else {
-		// 	const personIndex = friends.findIndex((person) => person._id === currentPerson._id);
-		// 	if (personIndex >= 0) {
-		// 		if (personIndex === friends.length - 1) {
-		// 			setUserInfo(friends[0]);
-		// 		} else {
-		// 			setUserInfo(friends[personIndex + 1]);
-		// 		}
-		// 	}
-		// }
-
+	const handleNext = (currentPerson: IUserInFo | undefined) => () => {
 		if (!currentPerson) {
-			toastSuccess("Người tiếp theo chưa có");
+			setUserInfo(friends[0]);
 		} else {
-			toastError("Bạn đã xem hết người xung quanh");
+			const personIndex = friends.findIndex(
+				(person) => person.user.userId === currentPerson.user.userId
+			);
+			if (personIndex >= 0) {
+				if (personIndex === friends.length - 1) {
+					setUserInfo(friends[0]);
+				} else {
+					setUserInfo(friends[personIndex + 1]);
+				}
+			}
 		}
 	};
 
-	const handlePrevious = (currentPerson: IUser | undefined) => () => {
-		// if (!currentPerson) {
-		// 	setUserInfo(friends[friends.length - 1]);
-		// } else {
-		// 	const personIndex = friends.findIndex((person) => person._id === currentPerson._id);
-		// 	if (personIndex >= 0) {
-		// 		if (personIndex === 0) {
-		// 			setUserInfo(friends[friends.length - 1]);
-		// 		} else {
-		// 			setUserInfo(friends[personIndex - 1]);
-		// 		}
-		// 	}
-		// }
+	const handlePrevious = (currentPerson: IUserInFo | undefined) => () => {
 		if (!currentPerson) {
-			toastSuccess("Người trước chưa có");
+			setUserInfo(friends[friends.length - 1]);
 		} else {
-			toastError("Bạn đã xem hết người xung quanh");
+			const personIndex = friends.findIndex(
+				(person) => person.user.userId === currentPerson.user.userId
+			);
+			if (personIndex >= 0) {
+				if (personIndex === 0) {
+					setUserInfo(friends[friends.length - 1]);
+				} else {
+					setUserInfo(friends[personIndex - 1]);
+				}
+			}
 		}
 	};
 
@@ -135,10 +123,7 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 							onClose={handleCloseRangeDialog}
 							range={sRange.range}
 						/>
-						<button onClick={handleOpenRangeDialog} className={styles.container__btnNext}>
-							<RangeIcon />
-						</button>
-						{/* <button className={styles.container__btnLocation} onClick={handleFocus}>
+						<button className={styles.container__btnLocation} onClick={handleFocus}>
 							<LocationIcon />
 						</button>
 						<button className={styles.container__btnNext} onClick={handleNext(userInfo)}>
@@ -146,7 +131,13 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 						</button>
 						<button className={styles.container__btnPrev} onClick={handlePrevious(userInfo)}>
 							<BiSkipPrevious />
-						</button> */}
+						</button>
+						<button
+							onClick={handleOpenRangeDialog}
+							className={styles.container__btnSettingRadius}
+						>
+							<RangeIcon />
+						</button>
 					</>
 				) : (
 					<div className={styles.container__notMe}>Vui lòng cấp quyền truy cập vị trí</div>
@@ -173,7 +164,12 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 						</>
 					)}
 					{friends?.map((friend) => (
-						<MapMakerFriend key={friend.user.userId} info={friend} onClick={saveUserInfo} />
+						<MapMakerFriend
+							key={friend.user.userId}
+							info={friend}
+							focus={userInfo}
+							onClick={saveUserInfo}
+						/>
 					))}
 				</MapContainer>
 

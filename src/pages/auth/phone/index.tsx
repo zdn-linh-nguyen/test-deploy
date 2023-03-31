@@ -5,7 +5,7 @@ import { ArrowLeftIcon, ArrowRightCircleIcon, PhoneIcon, VNFlagIcon } from "@/co
 import Title from "@/components/title";
 import { authentication } from "@/config/firebase/social-firebase-config";
 import APP_PATH from "@/constant/appPath";
-import { selectAuth, setRegister } from "@/reducers/authSlice";
+import { selectAuth, setPhones, setRegister } from "@/reducers/authSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useRouter } from "next/router";
@@ -44,6 +44,7 @@ export default function LoginPhone() {
 	const onSignInSubmit = (response: any): void => {
 		if (response) {
 			router.push(APP_PATH.AUTH_OTP);
+			dispatch(setPhones(phone));
 		}
 	};
 

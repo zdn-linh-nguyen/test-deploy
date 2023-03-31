@@ -14,5 +14,10 @@ const authAPI = {
 			token: tokenOtp,
 		});
 	},
+	loginNotOtp: (phone: string) => {
+		return mainAxios.post(`${ENDPOINT}/login-otp`, {
+			phone,
+		});
+	},
 };
 export default authAPI;

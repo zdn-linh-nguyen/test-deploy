@@ -11,7 +11,6 @@ import { addMatch } from "@/reducers/matchSlice";
 import { selectRange } from "@/reducers/rangeSlice";
 import { selectSocket } from "@/reducers/socketSlice";
 import { getProfile } from "@/reducers/userAction";
-import { selectUser } from "@/reducers/userSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useEffect, useState } from "react";
 import { EffectCreative } from "swiper";
@@ -41,7 +40,6 @@ export interface INoti {
 
 export default function Swipe() {
 	const sRange = useAppSelector(selectRange);
-	const sUser = useAppSelector(selectUser);
 	const { socket } = useAppSelector(selectSocket);
 
 	const [tinder, setTinder] = useState<IData[]>([]);
