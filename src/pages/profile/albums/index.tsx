@@ -1,10 +1,11 @@
 import photoAPI from "@/api/photoApi";
+import profileAPI from "@/api/profileApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { ArrowLeft } from "@/components/icons";
 import AlbumsImage from "@/components/profile/albumImage";
 import Title from "@/components/title";
 import { deletePhoto, selectPhoto, updateStateFavorite } from "@/reducers/photoSlice";
-import { updateProfileUser } from "@/reducers/userSlice";
+import { selectUser, updateProfileUser } from "@/reducers/userSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useRouter } from "next/router";
 import styles from "./albums.module.scss";
@@ -12,6 +13,7 @@ import styles from "./albums.module.scss";
 export default function Albums() {
 	const router = useRouter();
 	const sPhoto = useAppSelector(selectPhoto);
+	const sUser = useAppSelector(selectUser);
 	const dispatch = useAppDispatch();
 
 	const handleFavorite = (url: string) => async () => {
@@ -50,8 +52,12 @@ export default function Albums() {
 		}
 	};
 
-	const handleDelete = (url: string) => async () => {
+	const handleDelete = (url: string, photoUrl: string) => async () => {
 		try {
+			if (sUser.avatar === photoUrl) {
+				profileAPI.updateProfile({ avatar: null });
+			}
+
 			await photoAPI.removeImage(url);
 			dispatch(deletePhoto(url));
 			toastSuccess("Ảnh đã được xóa");
@@ -78,7 +84,7 @@ export default function Albums() {
 						url={item.photoUrl}
 						isFavorite={item.isFavorite}
 						onAvatar={handleSetAvatar(item.publicId)}
-						onDelete={handleDelete(item.publicId)}
+						onDelete={handleDelete(item.publicId, item.photoUrl)}
 						onFavorite={handleFavorite(item.publicId)}
 					/>
 				))}

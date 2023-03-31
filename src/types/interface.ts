@@ -93,21 +93,14 @@ export interface ISocialLoginData {
 
 export interface IProfileUpdateData {
 	name?: string;
-
+	avatar?: string | null;
 	gender?: string;
-
 	reason?: string;
-
 	description?: string;
-
 	height?: number;
-
 	religion?: string;
-
 	drinking?: boolean;
-
 	education?: string;
-
 	interests?: string[];
 }
 
