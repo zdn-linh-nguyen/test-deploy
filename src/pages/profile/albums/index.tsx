@@ -4,100 +4,96 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { ArrowLeft } from "@/components/icons";
 import AlbumsImage from "@/components/profile/albumImage";
 import Title from "@/components/title";
-import {
-  deletePhoto,
-  selectPhoto,
-  updateStateFavorite,
-} from "@/reducers/photoSlice";
+import { selectPhoto, updateStateFavorite } from "@/reducers/photoSlice";
 import { selectUser, updateProfileUser } from "@/reducers/userSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useRouter } from "next/router";
 import styles from "./albums.module.scss";
 
 export default function Albums() {
-  const router = useRouter();
-  const sPhoto = useAppSelector(selectPhoto);
-  const sUser = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
+	const router = useRouter();
+	const sPhoto = useAppSelector(selectPhoto);
+	const sUser = useAppSelector(selectUser);
+	const dispatch = useAppDispatch();
 
-  const handleFavorite = (url: string) => async () => {
-    // clean this code
-    try {
-      photoAPI.updateFavorite(url);
-      const updatedPhoto = sPhoto.find((p) => p.publicId === url);
-      if (updatedPhoto) {
-        const newIsFavorite = !updatedPhoto.isFavorite;
+	const handleFavorite = (url: string) => async () => {
+		// clean this code
+		try {
+			photoAPI.updateFavorite(url);
+			const updatedPhoto = sPhoto.find((p) => p.publicId === url);
+			if (updatedPhoto) {
+				const newIsFavorite = !updatedPhoto.isFavorite;
 
-        dispatch(
-          updateStateFavorite({
-            id: updatedPhoto.id,
-            isFavorite: newIsFavorite,
-          })
-        );
-      }
-      toastSuccess("Favorite updated");
-    } catch (error) {
-      toastError((error as IResponseError).error);
-    }
-  };
+				dispatch(
+					updateStateFavorite({
+						id: updatedPhoto.id,
+						isFavorite: newIsFavorite,
+					})
+				);
+			}
+			toastSuccess("Favorite updated");
+		} catch (error) {
+			toastError((error as IResponseError).error);
+		}
+	};
 
-  const handleSetAvatar = (url: string) => async () => {
-    const updatedFields = {
-      avatar: `/${url}`,
-    };
+	const handleSetAvatar = (photo: IPhoto) => async () => {
+		const updatedFields = {
+			avatar: `${photo.photoUrl}`,
+		};
 
-    try {
-      await dispatch(updateProfileUser(updatedFields));
-      await photoAPI.updateAvatar(url);
-      toastSuccess("Avatar đã được cập nhật");
-      router.push("/profile");
-    } catch (error) {
-      toastError((error as IResponseError).error);
-    }
-  };
+		try {
+			await dispatch(updateProfileUser(updatedFields));
+			await photoAPI.updateAvatar(photo.publicId);
+			toastSuccess("Avatar đã được cập nhật");
+			router.push("/profile");
+		} catch (error) {
+			toastError((error as IResponseError).error);
+		}
+	};
 
-  const handleDelete = (url: string, photoUrl: string) => async () => {
-    try {
-      if (sUser.avatar === photoUrl) {
-        profileAPI.updateProfile({ avatar: null });
-      }
+	const handleDelete = (photo: IPhoto) => async () => {
+		const updatedFields = {
+			avatar: null,
+		};
+		try {
+			if (sUser.avatar === photo.photoUrl) {
+				profileAPI.updateProfile({ avatar: null });
+				await dispatch(updateProfileUser(updatedFields as any));
+			}
+			await photoAPI.removeImage(photo.publicId);
 
-      await photoAPI.removeImage(url);
-      dispatch(deletePhoto(url));
-      toastSuccess("Ảnh đã được xóa");
-    } catch (error) {
-      toastError((error as IResponseError).error);
-    }
-  };
+			toastSuccess("Ảnh đã được xóa");
+		} catch (error) {
+			toastError((error as IResponseError).error);
+		}
+	};
 
-  return (
-    <section className={`${styles.container} container`}>
-      <Title
-        className={styles.container__title}
-        content={
-          <button
-            className={styles.container__title__btn}
-            onClick={() => router.back()}
-          >
-            <ArrowLeft />
-          </button>
-        }
-      />
+	return (
+		<section className={`${styles.container} container`}>
+			<Title
+				className={styles.container__title}
+				content={
+					<button className={styles.container__title__btn} onClick={() => router.back()}>
+						<ArrowLeft />
+					</button>
+				}
+			/>
 
-      <div className={styles.container__content}>
-        {sPhoto.map((item) => (
-          <AlbumsImage
-            key={item.photoUrl}
-            url={item.photoUrl}
-            isFavorite={item.isFavorite}
-            onAvatar={handleSetAvatar(item.publicId)}
-            onDelete={handleDelete(item.publicId, item.photoUrl)}
-            onFavorite={handleFavorite(item.publicId)}
-          />
-        ))}
-      </div>
-    </section>
-  );
+			<div className={styles.container__content}>
+				{sPhoto.map((item) => (
+					<AlbumsImage
+						key={item.photoUrl}
+						url={item.photoUrl}
+						isFavorite={item.isFavorite}
+						onAvatar={handleSetAvatar(item)}
+						onDelete={handleDelete(item)}
+						onFavorite={handleFavorite(item.publicId)}
+					/>
+				))}
+			</div>
+		</section>
+	);
 }
 
 Albums.protected = true;
