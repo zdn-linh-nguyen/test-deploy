@@ -15,6 +15,10 @@ const mapSlice = createSlice({
 			state.latitude = action.payload.lat;
 			state.longitude = action.payload.long;
 		},
+		getLocation: (state, action) => {
+			state.latitude = action.payload.lat;
+			state.longitude = action.payload.long;
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(createLocation.fulfilled, (state, { payload }) => {
@@ -22,14 +26,9 @@ const mapSlice = createSlice({
 			state.latitude = data.lat;
 			state.longitude = data.long;
 		});
-		// builder.addCase(getLocation.fulfilled, (state, { payload }) => {
-		// 	const { data } = payload;
-		// 	state.lat = data.lat;
-		// 	state.long = data.long;
-		// });
 	},
 });
 
 export const selectMap = (state: RootState) => state.map;
-export const { updateLocation } = mapSlice.actions;
+export const { updateLocation, getLocation } = mapSlice.actions;
 export default mapSlice.reducer;

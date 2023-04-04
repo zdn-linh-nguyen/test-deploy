@@ -13,7 +13,7 @@ function MapMakerFriend({ info, onClick, focus }: IProps) {
 	const a = info.user.userId === focus?.user.userId;
 	function getIconMarkerFocus() {
 		return L.icon({
-			iconUrl: a ? "/pin-focus.svg" : "/pin.svg",
+			iconUrl: a ? "/assets/pin-focus.svg" : "/assets/pin.svg",
 			iconSize: [50, 50],
 			iconAnchor: [25, 50],
 		});

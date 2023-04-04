@@ -7,6 +7,7 @@ import SwipeItem from "@/components/swipe/swipeItem/swipeItem";
 import UserCard from "@/components/swipe/userCard/userCard";
 import Title from "@/components/title";
 import { createLocation } from "@/reducers/mapAction";
+import { selectMap } from "@/reducers/mapSlice";
 import { userMatch } from "@/reducers/matchAction";
 import { addMatch } from "@/reducers/matchSlice";
 import { selectRange } from "@/reducers/rangeSlice";
@@ -28,15 +29,20 @@ export interface IData {
 
 export default function Swipe() {
 	const sRange = useAppSelector(selectRange);
+	const sMap = useAppSelector(selectMap);
 	const { socket } = useAppSelector(selectSocket);
 
 	const [tinder, setTinder] = useState<IData[]>([]);
 	const [user, setUser] = useState<IData>();
+
 	const [notification, setNotification] = useState<IUserMatch[]>([]);
 
 	const dispatch = useAppDispatch();
 
 	const handlePermission = async () => {
+		if (sMap.longitude === 0 && sMap.latitude === 0) {
+			return;
+		}
 		if (global.navigator && global.navigator.geolocation) {
 			global.navigator.geolocation.getCurrentPosition(
 				async (position) => {
@@ -44,6 +50,7 @@ export default function Swipe() {
 						long: position.coords.longitude,
 						lat: position.coords.latitude,
 					};
+					console.log(1);
 					dispatch(createLocation(data));
 				},
 				() => {}

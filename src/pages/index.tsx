@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/app/store";
 import Button from "@/components/button/button";
 import { AppleIcon, FacebookIcon, GoogleIcon } from "@/components/icons";
-import { signInWithFacebook, signInWithGoogle } from "@/config/firebase/social-firebase-config";
+import { signInWithGoogle } from "@/config/firebase/social-firebase-config";
 import APP_PATH from "@/constant/appPath";
 import { setAuthUser, setSocialLogin } from "@/reducers/authSlice";
 import { toastError } from "@/utils/toast";
@@ -52,7 +52,7 @@ export default function Home() {
 			<div className={styles.social}>
 				<p className={styles.social__title}>Hoặc đăng nhập với:</p>
 				<div className={styles.social__list}>
-					<button onClick={handleSocialLogin.bind("this", signInWithFacebook)}>
+					<button>
 						<FacebookIcon />
 					</button>
 					<button onClick={handleSocialLogin.bind("this", signInWithGoogle)}>
