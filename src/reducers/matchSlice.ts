@@ -1,5 +1,4 @@
 import { RootState } from "@/app/store";
-import { IUserMatch } from "@/types/interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface matchState {

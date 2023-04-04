@@ -16,7 +16,6 @@ import LocationIcon from "@/components/icons/locaionIcon";
 import Info from "@/components/info/info";
 import Interests from "@/components/interests/interests";
 import { LazyLoadingImage } from "@/components/loading/lazy";
-import { INoti } from "@/pages/swipe";
 import { addMatch } from "@/reducers/matchSlice";
 import { selectSocket } from "@/reducers/socketSlice";
 import { getProfile } from "@/reducers/userAction";
@@ -47,7 +46,7 @@ export default function SwipeItem({ isLoading, data, onClose, onMatch, onBlock }
 		const listenToNoti = async () => {
 			const res = await dispatch(getProfile());
 
-			socket.on(`noti-${res.payload.data.userId}`, (noti: INoti) => {
+			socket.on(`noti-${res.payload.data.userId}`, (noti) => {
 				dispatch(addMatch(noti));
 
 				// setNotification((prev) => [...prev, noti]);
