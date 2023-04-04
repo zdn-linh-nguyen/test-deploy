@@ -6,6 +6,7 @@ import { default as LoadingV } from "@/components/loadingv";
 import SwipeItem from "@/components/swipe/swipeItem/swipeItem";
 import UserCard from "@/components/swipe/userCard/userCard";
 import Title from "@/components/title";
+import { createLocation } from "@/reducers/mapAction";
 import { userMatch } from "@/reducers/matchAction";
 import { addMatch } from "@/reducers/matchSlice";
 import { selectRange } from "@/reducers/rangeSlice";
@@ -34,6 +35,23 @@ export default function Swipe() {
 	const [notification, setNotification] = useState<IUserMatch[]>([]);
 
 	const dispatch = useAppDispatch();
+
+	const handlePermission = async () => {
+		if (global.navigator && global.navigator.geolocation) {
+			global.navigator.geolocation.getCurrentPosition(
+				async (position) => {
+					const data = {
+						long: position.coords.longitude,
+						lat: position.coords.latitude,
+					};
+					dispatch(createLocation(data));
+				},
+				() => {}
+			);
+		} else {
+			toastError("Bạn chưa cấp quyền vị trí vì vậy không thể tìm bạn bè xung quanh");
+		}
+	};
 
 	useEffect(() => {
 		const listenToNoti = async () => {
@@ -70,6 +88,7 @@ export default function Swipe() {
 		listenToNoti();
 		getNotitication();
 		fetchUserAround();
+		handlePermission();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dispatch, sRange.range]);
 
