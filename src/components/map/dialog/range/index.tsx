@@ -16,9 +16,9 @@ interface IProps {
 export default function RangeDialog({ isOpen, onClose, range }: IProps) {
 	const dispatch = useAppDispatch();
 
-	const [inputValue, setInputValue] = useState<number>(range);
+	const [inputValue, setInputValue] = useState<number | null>(range);
 
-	const onChange = (newValue: number) => setInputValue(newValue);
+	const onChange = (newValue: number | null) => setInputValue(newValue);
 
 	const handleSubmitFindUser = async () => {
 		if (!inputValue) return;
@@ -26,8 +26,6 @@ export default function RangeDialog({ isOpen, onClose, range }: IProps) {
 		mapAPI.getLocation(inputValue);
 		onClose();
 	};
-
-	console.log(1);
 
 	return (
 		<>
@@ -39,7 +37,7 @@ export default function RangeDialog({ isOpen, onClose, range }: IProps) {
 							max={5000}
 							onChange={onChange}
 							defaultValue={range}
-							value={inputValue}
+							value={inputValue ? inputValue : 500}
 						/>
 					</Col>
 					<Col span={4}>
