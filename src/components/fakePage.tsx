@@ -35,10 +35,6 @@ function FakePage() {
 	};
 
 	useEffect(() => {
-		if (localStorage.getItem("token")) {
-			handlePermission();
-		}
-
 		!isSendRequest.current && getCurrentUser();
 		const token = localStorage?.getItem("token");
 		const socket = io(process.env.API_PUBLIC as string, {
@@ -51,7 +47,10 @@ function FakePage() {
 			},
 		});
 		dispatch(setSocket(socket));
-		handlePermission();
+
+		if (localStorage.getItem("token")) {
+			handlePermission();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return <></>;
