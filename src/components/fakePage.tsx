@@ -28,13 +28,14 @@ function FakePage() {
 	};
 
 	const getCurrentUser = async () => {
-		dispatch(getProfile());
-		isSendRequest.current = true;
+		if (localStorage.getItem("token")) {
+			dispatch(getProfile());
+			isSendRequest.current = true;
+		}
 	};
 
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
-			getCurrentUser();
 			handlePermission();
 		}
 
@@ -50,6 +51,7 @@ function FakePage() {
 			},
 		});
 		dispatch(setSocket(socket));
+		handlePermission();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return <></>;
