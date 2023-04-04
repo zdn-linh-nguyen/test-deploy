@@ -27,6 +27,8 @@ export default function RangeDialog({ isOpen, onClose, range }: IProps) {
 		onClose();
 	};
 
+	console.log(1);
+
 	return (
 		<>
 			<Dialog title="Tìm bạn trong khoảng cách (m)" isOpen={isOpen} onClose={onClose}>
