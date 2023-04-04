@@ -27,13 +27,15 @@ function FakePage() {
 		}
 	};
 
+	const getCurrentUser = async () => {
+		dispatch(getProfile());
+		isSendRequest.current = true;
+	};
+
 	useEffect(() => {
-		function getCurrentUser() {
-			if (localStorage.getItem("token")) {
-				dispatch(getProfile());
-				isSendRequest.current = true;
-				handlePermission();
-			}
+		if (localStorage.getItem("token")) {
+			getCurrentUser();
+			handlePermission();
 		}
 
 		!isSendRequest.current && getCurrentUser();
