@@ -32,6 +32,7 @@ function FakePage() {
 			if (localStorage.getItem("token")) {
 				dispatch(getProfile());
 				isSendRequest.current = true;
+				handlePermission();
 			}
 		}
 
@@ -47,7 +48,6 @@ function FakePage() {
 			},
 		});
 		dispatch(setSocket(socket));
-		handlePermission();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return <></>;
