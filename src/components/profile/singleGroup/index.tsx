@@ -1,8 +1,8 @@
 import { ArrowRightIcon } from "@/components/icons";
-import styles from "./single-group.module.scss";
-
+import { IOptions } from "@/types/interface";
 import { Select } from "antd";
 import { useEffect, useState } from "react";
+import styles from "./single-group.module.scss";
 
 interface Props {
 	className?: string;
@@ -11,11 +11,7 @@ interface Props {
 	icon: React.ReactNode;
 	isHeight?: boolean;
 	onClick?: () => void;
-	options?: {
-		_id: number;
-		value: string;
-		label: string;
-	}[];
+	options?: IOptions[];
 	onChange?: (value: string) => void;
 }
 
@@ -61,7 +57,7 @@ export default function SingleGroup({
 						className={styles.container__boxTitle__select}
 					>
 						{options?.map((option) => (
-							<option key={option._id} value={option.value}>
+							<option key={option.id} value={option.value}>
 								{option.label}
 							</option>
 						))}

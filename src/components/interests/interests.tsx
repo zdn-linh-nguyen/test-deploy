@@ -1,10 +1,10 @@
 import styles from "./interests.module.scss";
 
-interface Props {
+interface IProps {
 	title: string;
 }
 
-export default function Interests({ title }: Props) {
+export default function Interests({ title }: IProps) {
 	const random = Math.floor(Math.random() * 10);
 	const bg = [
 		"#FFF0F0",

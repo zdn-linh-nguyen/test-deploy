@@ -23,19 +23,11 @@
 
 		&__input {
 			width: 100%;
-
-			&[type="date"]::-webkit-inner-spin-button,
-			&[type="date"]::-webkit-calendar-picker-indicator {
-				// display: none;
-				// -webkit-appearance: none;
-				opacity: 0;
-			}
 		}
 		&__icon {
 			position: absolute;
 			right: 1.2rem;
 			top: 34%;
-			// transform: translateY(-50%);
 		}
 	}
 

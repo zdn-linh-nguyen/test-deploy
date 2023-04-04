@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/app/store";
 import { ArrowLeft } from "@/components/icons";
 import AlbumsImage from "@/components/profile/albumImage";
 import Title from "@/components/title";
-import { selectPhoto, updateStateFavorite } from "@/reducers/photoSlice";
+import { deletePhoto, selectPhoto, updateStateFavorite } from "@/reducers/photoSlice";
 import { selectUser, updateProfileUser } from "@/reducers/userSlice";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useRouter } from "next/router";
@@ -17,7 +17,6 @@ export default function Albums() {
 	const dispatch = useAppDispatch();
 
 	const handleFavorite = (url: string) => async () => {
-		// clean this code
 		try {
 			photoAPI.updateFavorite(url);
 			const updatedPhoto = sPhoto.find((p) => p.publicId === url);
@@ -59,10 +58,10 @@ export default function Albums() {
 		try {
 			if (sUser.avatar === photo.photoUrl) {
 				profileAPI.updateProfile({ avatar: null });
-				await dispatch(updateProfileUser(updatedFields as any));
+				await dispatch(updateProfileUser(updatedFields as unknown as IProfile));
 			}
 			await photoAPI.removeImage(photo.publicId);
-
+			dispatch(deletePhoto(photo.publicId));
 			toastSuccess("Ảnh đã được xóa");
 		} catch (error) {
 			toastError((error as IResponseError).error);

@@ -4,17 +4,16 @@ import * as timeago from "timeago.js";
 import vi from "timeago.js/lib/lang/vi";
 timeago.register("vi", vi);
 
-import { IMessage } from "@/types/message";
 import styles from "./convensation.module.scss";
 
-interface Props {
+interface IProps {
 	name: string;
 	avatar: string;
 	onClick?: () => void;
 	lastMessage?: IMessage;
 }
 
-export default function Conversation({ name, avatar, onClick, lastMessage }: Props) {
+export default function Conversation({ name, avatar, onClick, lastMessage }: IProps) {
 	return (
 		<li className={styles.container} onClick={onClick}>
 			<div className={styles.container__box}>

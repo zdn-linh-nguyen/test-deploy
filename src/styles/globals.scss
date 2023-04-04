@@ -2,6 +2,7 @@
 @import "./reset";
 @import "./mixins";
 @import "./match";
+@import "./animations";
 
 body * {
 	font-family: $ff-primary;
@@ -116,21 +117,22 @@ h4 {
 	padding-inline: 1rem;
 	max-width: 48rem;
 	margin: 0 auto;
-	// box-shadow: $shadow-md;
 }
 
 .image-container {
 	position: relative;
-}
-.image-container span {
-	position: unset !important;
-	height: 100% !important;
-}
-.image-container .image {
-	object-fit: cover;
-	height: 100% !important;
-	width: 100% !important;
-	position: relative !important;
+
+	span {
+		position: unset !important;
+		height: 100% !important;
+	}
+
+	.image {
+		object-fit: cover;
+		height: 100% !important;
+		width: 100% !important;
+		position: relative !important;
+	}
 }
 
 // ----- button
@@ -172,68 +174,49 @@ h4 {
 	width: 100%;
 }
 
-// ----- animation
-
-.animate-up {
-	animation: animate-up 0.7s ease-in-out;
-}
-@keyframes animate-up {
-	0% {
-		transform: translateY(100%);
-	}
-	100% {
-		transform: translateY(0%);
-	}
-}
-
-.animate-down {
-	animation: animate-down 0.7s ease-in-out;
-}
-@keyframes animate-down {
-	100% {
-		transform: translateY(100%);
-	}
-	0% {
-		transform: translateY(0%);
-	}
+// ----
+input[type="date"]::-webkit-calendar-picker-indicator {
+	background: transparent;
+	bottom: 0;
+	color: transparent;
+	cursor: pointer;
+	height: auto;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: auto;
 }
 
-.animate-spin {
-	animation: animate-spin 1s linear infinite;
+// ----------------------
+
+.div {
+	@include flex(center, center);
+	height: 75vh;
 }
 
-@keyframes animate-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
+.loader {
+	position: relative;
+	width: 80px;
+	height: 100px;
+	animation: heartBeat 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 
-.animate-hue {
-	animation: animate-hue 0.2s linear infinite;
-}
-@keyframes animate-hue {
-	0% {
-		filter: hue-rotate(0deg) brightness(1);
+	&:before,
+	&:after {
+		content: "";
+		background: $cl-main-purple;
+		width: 80px;
+		height: 100px;
+		border-radius: 50px 50px 0 0;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		transform: rotate(45deg);
+		transform-origin: 50% 68%;
+		box-shadow: 5px 4px 5px $cl-heart-loading inset;
 	}
-	50% {
-		filter: hue-rotate(0deg) brightness(0);
-	}
-	100% {
-		filter: hue-rotate(360deg) brightness(1);
-	}
-}
 
-.animate-ping {
-	animation: animate-ping 1.5s cubic-bezier(0, 0, 1, 1) infinite;
-}
-
-@keyframes animate-ping {
-	75%,
-	100% {
-		transform: scale(2);
-		opacity: 0;
+	&:after {
+		transform: rotate(-45deg);
 	}
 }

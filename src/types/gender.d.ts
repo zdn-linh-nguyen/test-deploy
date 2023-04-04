@@ -1,5 +1,5 @@
 declare interface IGenderOption {
-	_id: number;
+	id: number;
 	value: string;
 	label: string;
 }

@@ -1,18 +1,13 @@
-import { conversation } from "@/utils/data";
-import { compareDateToMinutes, formatDateTime } from "@/utils/date";
-import { Fragment } from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import MessageItem from "../messageItem";
 import styles from "./list-message.module.scss";
 
-interface Props {
+interface IProps {
 	userId?: string;
 	className?: string;
 	conversationId: string;
 }
 
-export default function ListMessage({ conversationId, className }: Props) {
-	const res = conversation.find((item: any) => item._id === conversationId);
+export default function ListMessage({ conversationId, className }: IProps) {
+	// const res = conversation.find((item: any) => item._id === conversationId);
 
 	return (
 		<div
@@ -22,7 +17,7 @@ export default function ListMessage({ conversationId, className }: Props) {
 			}}
 			className={styles.container}
 		>
-			{res?.messages && (
+			{/* {res?.messages && (
 				<InfiniteScroll
 					dataLength={res.messages.length}
 					next={() => {
@@ -64,7 +59,8 @@ export default function ListMessage({ conversationId, className }: Props) {
 						);
 					})}
 				</InfiniteScroll>
-			)}
+			)} */}
+			<h1>hello</h1>
 		</div>
 	);
 }

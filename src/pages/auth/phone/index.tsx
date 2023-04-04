@@ -25,9 +25,7 @@ export default function LoginPhone() {
 		setPhone(e.target.value);
 	};
 
-	//   Function handle Generate Recapcha before call return api
 	const generateRecaptcha = (): void => {
-		// create property for window --> verify user
 		window.recaptchaVerifier = new RecaptchaVerifier(
 			"recaptcha-container",
 			{
@@ -40,7 +38,6 @@ export default function LoginPhone() {
 		);
 	};
 
-	//   function handle when verify recapcha
 	const onSignInSubmit = (response: any): void => {
 		if (response) {
 			router.push(APP_PATH.AUTH_OTP);
@@ -48,7 +45,6 @@ export default function LoginPhone() {
 		}
 	};
 
-	// Handle Confirm Result OTP
 	const confirmResultHandle = (): void => {
 		generateRecaptcha();
 		const appVerifier: RecaptchaVerifier = window.recaptchaVerifier;
@@ -125,8 +121,12 @@ export default function LoginPhone() {
 						<input
 							value={phone}
 							onChange={handleChangePhone}
-							className="flex-1 bg-transparent"
-							type="text"
+							type="number"
+							onKeyDown={(e) => {
+								if (e.key === "-" || e.key === "+" || e.key === "e") {
+									e.preventDefault();
+								}
+							}}
 							placeholder="Nhập số điện thoại"
 							ref={inputRef}
 						/>

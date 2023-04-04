@@ -31,6 +31,7 @@ import PhoneIcon from "./phoneIcon";
 import PlusIcon from "./plusIcon";
 import ProfileIcon from "./profileIcon";
 import QuoteLeftIcon from "./quoteLeftIcon";
+import RangeIcon from "./rangeIcon";
 import ReligionIcon from "./religionIcon";
 import SendIcon from "./sendIcon";
 import SendIconMatch from "./sendIconMatch";
@@ -74,6 +75,7 @@ export {
 	PlusIcon,
 	ProfileIcon,
 	QuoteLeftIcon,
+	RangeIcon,
 	ReligionIcon,
 	SendIcon,
 	SendIconMatch,

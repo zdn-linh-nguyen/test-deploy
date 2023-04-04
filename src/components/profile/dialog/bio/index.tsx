@@ -7,13 +7,13 @@ import { toastError, toastSuccess } from "@/utils/toast";
 import { useState } from "react";
 import styles from "./bio.module.scss";
 
-interface Props {
+interface IProps {
 	isOpen: boolean;
 	onClose: () => void;
 	bio: string;
 }
 
-export default function BioDialog({ isOpen, onClose, bio }: Props) {
+export default function BioDialog({ isOpen, onClose, bio }: IProps) {
 	const [value, setValue] = useState<string>(bio || "");
 	const dispatch = useAppDispatch();
 

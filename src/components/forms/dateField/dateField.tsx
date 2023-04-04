@@ -1,8 +1,7 @@
+import { CalenderIcon } from "@/components/icons";
 import { useRef } from "react";
 import { RegisterOptions, UseFormRegister } from "react-hook-form";
-import { CalenderIcon } from "../../icons";
-import styles from "./input-field.module.scss";
-
+import styles from "./date-field.module.scss";
 interface IProps {
 	label: string;
 	placeholder: string;
@@ -41,7 +40,7 @@ export default function DateField({
 			<div className={styles.content} ref={ref}>
 				<label htmlFor={name}>
 					<span className={styles.content__title}>{label}</span>
-					{option?.required && <span className={styles.content__danger}>*</span>}
+					<span className={option?.required ? styles.content__danger : "hidden"}>*</span>
 				</label>
 				<input
 					id={name}

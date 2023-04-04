@@ -22,6 +22,16 @@ export default function AlbumsItem({ firstImage, anotherImages, middleImage, upL
 
 	const handleClick = (): void => setIsShow(!isShow);
 
+	const lazyLoadingImageComponents = (
+		<LazyLoadingImage
+			src={url}
+			alt="post_image"
+			className="image object-cover"
+			width="100%"
+			height="100%"
+		/>
+	);
+
 	return (
 		<>
 			{upLoad ? (
@@ -34,49 +44,23 @@ export default function AlbumsItem({ firstImage, anotherImages, middleImage, upL
 						</div>
 					)}
 					<div className={`${styles.container__boxImg} image-container`}>
-						<LazyLoadingImage
-							src={url}
-							alt="post_image"
-							className="image object-cover"
-							width="100%"
-							height="100%"
-						/>
+						{lazyLoadingImageComponents}
 					</div>
 				</div>
 			) : firstImage || middleImage ? (
 				<div className={classCSS} onClick={onClick}>
-					<div className="h-full image-container">
-						<LazyLoadingImage
-							src={url}
-							alt="post_image"
-							className="image object-cover"
-							width="100%"
-							height="100%"
-						/>
-					</div>
+					<div className="h-full image-container">{lazyLoadingImageComponents}</div>
 				</div>
 			) : anotherImages ? (
 				<div className={styles.container} onClick={onClick}>
 					<div className={styles.container__anotherImg}>
 						<span>+{anotherImages}</span>
 					</div>
-					<LazyLoadingImage
-						src={url}
-						alt="post_image"
-						className="image object-cover"
-						width="100%"
-						height="100%"
-					/>
+					{lazyLoadingImageComponents}
 				</div>
 			) : (
 				<div className={styles.container} onClick={onClick}>
-					<LazyLoadingImage
-						src={url}
-						alt="post_image"
-						className="image object-cover"
-						width="100%"
-						height="100%"
-					/>
+					{lazyLoadingImageComponents}
 				</div>
 			)}
 		</>

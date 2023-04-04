@@ -1,77 +1,12 @@
+import { ReactElement } from "react";
+
 export interface IUserGender {
 	name: string;
-}
-
-interface IUserStatus {
-	isFirstUpdate: boolean;
-	isVerified: boolean;
-	isActive: boolean;
 }
 
 export interface IUserInterests {
 	name: string;
 }
-
-export interface IUserName {
-	firstName: string;
-	lastName: string;
-}
-
-export interface IUserMatch {
-	id: string;
-	email: string;
-	avatar: string;
-	name: string;
-	isSeen: boolean;
-	userFromId: string;
-	userToId: string;
-	fromUserName: string;
-	toUserName: string;
-	fromAvatar: string;
-	toAvatar: string;
-	type: string;
-}
-
-export interface IUserLocation {
-	latitude: number;
-	longitude: number;
-	updatedAt?: string;
-}
-
-interface IAlbums {
-	id: string;
-	url: string;
-	isFavorite: boolean;
-	isDefault: boolean;
-}
-
-interface IProfile {
-	bio: string;
-	albums: IAlbums[];
-	height: number;
-	reason: string;
-	drinking: boolean;
-	religion: boolean;
-	education: IEducation;
-	interests: IUserInterests[];
-	gender: IUserGender;
-}
-
-export interface IUser {
-	id: string;
-	name: IUserName;
-	avatar: string;
-	age: number;
-	phone: string;
-	email: string;
-	birthday: string;
-	lastLocation: IUserLocation;
-	distance: number;
-	info: IProfile;
-	status: IUserStatus;
-	match: IUserMatch[];
-}
-
 export interface IUserRegister {
 	phone?: string;
 	name: string;
@@ -104,17 +39,16 @@ export interface IProfileUpdateData {
 	avatar?: string | null;
 }
 
-export interface IProfileData {
-	userId: string;
-	name: string;
-	gender: string;
-	birthday: string;
-	description: string;
-	reason: string;
-	avatar: string;
-	height: number;
-	religion: string;
-	drinking: boolean;
-	education: string;
-	interests: string[];
+export interface IWhyOptions {
+	id: number;
+	label: string;
+	value: string;
+	sub: string;
+	Icon: ReactElement;
+}
+
+export interface IOptions {
+	id: number;
+	value: string;
+	label: string;
 }

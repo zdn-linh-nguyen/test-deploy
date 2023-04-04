@@ -26,7 +26,7 @@ export default function SelectField({ onChange, name, label, option, genders, er
 					{label && (
 						<label htmlFor={label}>
 							<span className={styles.content__title}>{label}</span>
-							{option?.required && <span className={styles.content__danger}>*</span>}
+							<span className={option?.required ? styles.content__danger : "hidden"}>*</span>
 						</label>
 					)}
 					<ArrowDownIcon className={styles.content__icon} />
@@ -48,7 +48,7 @@ export default function SelectField({ onChange, name, label, option, genders, er
 					</select>
 				</div>
 			</div>
-			{error && <p className={styles.error}>{error}</p>}
+			<p className={error ? styles.error : "hidden"}>{error}</p>
 		</>
 	);
 }

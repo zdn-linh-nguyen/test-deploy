@@ -13,7 +13,7 @@
 		padding: 0.75rem 0.75rem 0.5rem;
 		border-radius: 0.75rem;
 		box-shadow: $shadow-md;
-		border: 2px solid #f1f5f9;
+		border: 2px solid $cl-white;
 		background-color: $cl-white;
 
 		&::first-letter {
@@ -61,7 +61,7 @@
 		padding: 0.75rem 0.75rem 0.5rem;
 		border-radius: 0.75rem;
 		box-shadow: $shadow-md;
-		border: 2px solid #f1f5f9;
+		border: 2px solid $cl-white;
 		background-color: $cl-white;
 
 		&::first-letter {

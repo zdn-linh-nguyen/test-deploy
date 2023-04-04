@@ -3,22 +3,17 @@ import "leaflet/dist/leaflet.css";
 import { memo } from "react";
 import { Marker } from "react-leaflet";
 
-interface Props {
-	info: {
-		user: IProfile;
-		long: number;
-		lat: number;
-		distance: number;
-	};
+interface IProps {
+	info: IMapUserResponse;
 	focus?: IUserInFo;
 	onClick?: (user: IUserInFo) => void;
 }
 
-function MapMakerFriend({ info, onClick, focus }: Props) {
+function MapMakerFriend({ info, onClick, focus }: IProps) {
 	const a = info.user.userId === focus?.user.userId;
 	function getIconMarkerFocus() {
 		return L.icon({
-			iconUrl: a ? "/Pin-focus.svg" : "/Pin.svg",
+			iconUrl: a ? "/pin-focus.svg" : "/pin.svg",
 			iconSize: [50, 50],
 			iconAnchor: [25, 50],
 		});

@@ -3,17 +3,12 @@ import { handleAge } from "@/utils/handleAge";
 import Image from "next/image";
 import styles from "./map-info.module.scss";
 
-interface Props {
-	data: {
-		user: IProfile;
-		long: number;
-		lat: number;
-		distance: number;
-	};
+interface IProps {
+	data: IMapUserResponse;
 	onClick: () => void;
 }
 
-export default function MapUserInfo({ data, onClick }: Props) {
+export default function MapUserInfo({ data, onClick }: IProps) {
 	return (
 		<div className={styles.container}>
 			<div className={`${styles.container__boxImg} image-container`}>

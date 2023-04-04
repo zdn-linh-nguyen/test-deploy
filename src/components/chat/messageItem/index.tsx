@@ -1,5 +1,3 @@
-import { IMessageItem } from "@/types/message";
-// import Image from "next/image";
 import Image from "next/image";
 import styles from "./message-item.module.scss";
 

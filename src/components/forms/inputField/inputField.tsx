@@ -31,7 +31,7 @@ export default function InputField({
 			<div className={`${styles.content} ${className}`}>
 				<label htmlFor={label}>
 					<span className={styles.content__title}>{label}</span>
-					{option?.required && <span className={styles.content__danger}>*</span>}
+					<span className={option?.required ? styles.content__danger : "hidden"}>*</span>
 				</label>
 				<input
 					id={label}
@@ -43,7 +43,7 @@ export default function InputField({
 					{...register(name, { ...option })}
 				/>
 			</div>
-			{error && <p className={styles.container__error}>{error}</p>}
+			<p className={error ? styles.container__error : "hidden"}>{error}</p>
 		</div>
 	);
 }

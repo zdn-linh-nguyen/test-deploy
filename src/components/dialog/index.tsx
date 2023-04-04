@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { CloseIcon } from "../icons";
 import styles from "./dialog.module.scss";
 
-interface Props {
+interface IProps {
 	title: string;
 	isOpen: boolean;
 	onClose: () => void;
 	children: React.ReactNode;
 }
 
-export default function Dialog({ title, isOpen, onClose, children }: Props) {
+export default function Dialog({ title, isOpen, onClose, children }: IProps) {
 	const [show, setShow] = useState<boolean>(isOpen);
 
 	const handleClose = () => {

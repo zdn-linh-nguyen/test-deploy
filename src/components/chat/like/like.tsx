@@ -3,12 +3,12 @@ import { AiFillHeart } from "react-icons/ai";
 import { IoClose } from "react-icons/io5";
 import styles from "./like.module.scss";
 
-interface Props {
+interface IProps {
 	avatar: string;
 	onClick: () => void;
 }
 
-export default function LikeAvatar({ avatar, onClick }: Props) {
+export default function LikeAvatar({ avatar, onClick }: IProps) {
 	function handleClick() {
 		onClick();
 	}

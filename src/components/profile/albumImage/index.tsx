@@ -5,7 +5,7 @@ import { useState } from "react";
 import { FaCrown, FaHeart, FaTrash } from "react-icons/fa";
 import styles from "./album-img.module.scss";
 
-type Props = {
+type IProps = {
 	url: string;
 	isFavorite: boolean;
 	onFavorite: () => void;
@@ -13,7 +13,7 @@ type Props = {
 	onDelete: () => void;
 };
 
-export default function AlbumsImage({ url, isFavorite, onAvatar, onDelete, onFavorite }: Props) {
+export default function AlbumsImage({ url, isFavorite, onAvatar, onDelete, onFavorite }: IProps) {
 	const [isShowLayout, setIsShowLayout] = useState<boolean>(false);
 	const avatarUrl = useAppSelector(selectUser).avatar;
 	const isAvatar = avatarUrl === url;

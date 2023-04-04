@@ -16,9 +16,8 @@ import styles from "./index.module.scss";
 import NavBarItem from "./navbarItem/navbarItem";
 
 const Portal = dynamic(() => import("@/hoc/Portal"), { ssr: false });
-interface IProps {}
 
-function Navbar(props: IProps) {
+function Navbar() {
 	const router = useRouter();
 	return (
 		<Portal id="navbar" className={styles.container} section="section">

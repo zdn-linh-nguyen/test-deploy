@@ -2,13 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import { createLocation } from "./mapAction";
 
-interface IInitialState {
-	lat: number;
-	long: number;
-}
-const initialState: IInitialState = {
-	lat: 0,
-	long: 0,
+const initialState: IUpdateLocation = {
+	latitude: 0,
+	longitude: 0,
 };
 
 const mapSlice = createSlice({
@@ -16,15 +12,15 @@ const mapSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		updateLocation: (state, action) => {
-			state.lat = action.payload.lat;
-			state.long = action.payload.long;
+			state.latitude = action.payload.lat;
+			state.longitude = action.payload.long;
 		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(createLocation.fulfilled, (state, { payload }) => {
 			const { data } = payload;
-			state.lat = data.lat;
-			state.long = data.long;
+			state.latitude = data.lat;
+			state.longitude = data.long;
 		});
 		// builder.addCase(getLocation.fulfilled, (state, { payload }) => {
 		// 	const { data } = payload;

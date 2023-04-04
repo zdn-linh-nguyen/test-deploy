@@ -148,7 +148,7 @@ export default function UploadImage() {
 				<Button
 					onClick={handleSubmit}
 					block
-					disabled={sPhoto && sPhoto.length === 10 ? true : false}
+					disabled={sPhoto && sPhoto.length === 10}
 					title="Lưu"
 					type="secondary"
 					className={styles.container__btn}

@@ -2,10 +2,10 @@ import mapAPI from "@/api/mapApi";
 import notiApi from "@/api/notiApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { LazyLoadingComponent } from "@/components/loading/lazy";
+import { default as LoadingV } from "@/components/loadingv";
 import SwipeItem from "@/components/swipe/swipeItem/swipeItem";
 import UserCard from "@/components/swipe/userCard/userCard";
 import Title from "@/components/title";
-import { createLocation } from "@/reducers/mapAction";
 import { userMatch } from "@/reducers/matchAction";
 import { addMatch } from "@/reducers/matchSlice";
 import { selectRange } from "@/reducers/rangeSlice";
@@ -25,76 +25,53 @@ export interface IData {
 	distance: number;
 }
 
-export interface INoti {
-	createdAt: Date;
-	fromAvatar: string;
-	fromUserId: string;
-	fromUserName: string;
-	id: string;
-	isSeen: boolean;
-	toAvatar: string;
-	toUserId: string;
-	toUserName: string;
-	type: string;
-}
-
 export default function Swipe() {
 	const sRange = useAppSelector(selectRange);
 	const { socket } = useAppSelector(selectSocket);
 
 	const [tinder, setTinder] = useState<IData[]>([]);
 	const [user, setUser] = useState<IData>();
-	const [notification, setNotification] = useState<INoti[]>([]);
+	const [notification, setNotification] = useState<IUserMatch[]>([]);
 
 	const dispatch = useAppDispatch();
 
-	const handlePermission = async () => {
-		if (global.navigator && global.navigator.geolocation) {
-			global.navigator.geolocation.getCurrentPosition(
-				async (position) => {
-					const data = {
-						long: position.coords.longitude,
-						lat: position.coords.latitude,
-					};
-					dispatch(createLocation(data));
-				},
-				() => {}
-			);
-		} else {
-			toastError("Bạn chưa cấp quyền vị trí vì vậy không thể tìm bạn bè xung quanh");
-		}
-	};
-
 	useEffect(() => {
 		const listenToNoti = async () => {
-			const res = await dispatch(getProfile());
-
-			socket.on(`noti-${res.payload.data.userId}`, (noti: INoti) => {
-				dispatch(addMatch(noti));
-
-				setNotification((prev) => [...prev, noti]);
-			});
+			try {
+				const res = await dispatch(getProfile());
+				const userId = res.payload.data.userId;
+				socket.on(`noti-${userId}`, (noti) => {
+					dispatch(addMatch(noti));
+					setNotification((prev) => [...prev, noti]);
+				});
+			} catch (error) {
+				console.log(error);
+			}
 		};
-		listenToNoti();
 
 		const getNotitication = async () => {
-			const notis = await notiApi.getAllNoti();
-			setNotification(notis.data);
+			try {
+				const notis = await notiApi.getAllNoti();
+				setNotification(notis.data);
+			} catch (error) {
+				console.log(error);
+			}
 		};
-		getNotitication();
 
-		handlePermission();
-		async function fetchUserAround() {
+		const fetchUserAround = async () => {
 			try {
 				const res = await mapAPI.getLocation(sRange.range);
 				setTinder(res.data);
 			} catch (error) {
 				toastError("Không có người dùng nào lân cận!");
 			}
-		}
+		};
+
+		listenToNoti();
+		getNotitication();
 		fetchUserAround();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [dispatch, sRange.range]);
 
 	const handleSeenInfo = (tinder: IData) => () => setUser(tinder);
 	const handleClose = (): void => setUser(undefined);
@@ -172,9 +149,7 @@ export default function Swipe() {
 					))}
 				</Swiper>
 			) : (
-				<div className={styles.swipe__notif__container}>
-					<h3 className="swipe__notif">Hổng có ai hết</h3>
-				</div>
+				<LoadingV />
 			)}
 			{user && (
 				<SwipeItem

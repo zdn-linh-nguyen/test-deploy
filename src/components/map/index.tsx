@@ -2,14 +2,13 @@ import blockAPI from "@/api/blockApi";
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { userMatch } from "@/reducers/matchAction";
 import { selectRange } from "@/reducers/rangeSlice";
-import { IUserLocation } from "@/types/interface";
 import { toastError, toastSuccess } from "@/utils/toast";
 import "leaflet/dist/leaflet.css";
 import { Dispatch, useState } from "react";
 import { BiSkipNext, BiSkipPrevious } from "react-icons/bi";
 import { Circle, MapContainer, TileLayer } from "react-leaflet";
-import { LocationIcon } from "../icons";
-import RangeIcon from "../icons/rangeIcon";
+import { LocationIcon, RangeIcon } from "../icons";
+import LoadingV from "../loadingv";
 import SwipeItem from "../swipe/swipeItem/swipeItem";
 import RangeDialog from "./dialog/range";
 import styles from "./map.module.scss";
@@ -17,21 +16,22 @@ import MapUserInfo from "./mapInfo";
 import MapMaker from "./mapMaker";
 import MapMakerFriend from "./mapMakerFriend";
 
-interface Props {
+interface IProps {
 	isFocus?: boolean;
-	me?: IUserLocation;
-	friends: {
-		user: IProfile;
-		long: number;
-		lat: number;
-		distance: number;
-	}[];
+	me?: IUpdateLocation;
+	friends: IFriend[];
 	info: IProfile;
 	handleFocus: () => void;
 	setFriends: Dispatch<any>;
 }
+interface IFriend {
+	user: IProfile;
+	long: number;
+	lat: number;
+	distance: number;
+}
 
-export default function Map({ me, isFocus, handleFocus, friends, setFriends, info }: Props) {
+export default function Map({ me, isFocus, handleFocus, friends, setFriends, info }: IProps) {
 	const sRange = useAppSelector(selectRange);
 
 	const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -52,7 +52,7 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 			distance: user.distance,
 		});
 	};
-	const handleClose = (): void => setIsOpen(false);
+	const handleChangeStateOpen = (): void => setIsOpen(!isOpen);
 
 	const handleMatch = async (id: string) => {
 		setIsLoading(true);
@@ -115,75 +115,70 @@ export default function Map({ me, isFocus, handleFocus, friends, setFriends, inf
 
 	return (
 		<>
-			<section className={styles.container}>
-				{me ? (
-					<>
-						<RangeDialog
-							isOpen={isOpenRangeDialog}
-							onClose={handleCloseRangeDialog}
-							range={sRange.range}
-						/>
-						<button className={styles.container__btnLocation} onClick={handleFocus}>
-							<LocationIcon />
-						</button>
-						<button className={styles.container__btnNext} onClick={handleNext(userInfo)}>
-							<BiSkipNext />
-						</button>
-						<button className={styles.container__btnPrev} onClick={handlePrevious(userInfo)}>
-							<BiSkipPrevious />
-						</button>
-						<button
-							onClick={handleOpenRangeDialog}
-							className={styles.container__btnSettingRadius}
-						>
-							<RangeIcon />
-						</button>
-					</>
-				) : (
-					<div className={styles.container__notMe}>Vui lòng cấp quyền truy cập vị trí</div>
-				)}
-				<MapContainer
-					center={me && [me.latitude, me.longitude]}
-					zoom={16}
-					dragging={false}
-					doubleClickZoom={false}
-					attributionControl={false}
-					zoomControl={false}
-					scrollWheelZoom={false}
-					className={styles.container__mapContainer}
-				>
-					<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-					{me && (
-						<>
-							<MapMaker location={me} info={info} isFocus={isFocus} />
-							<Circle
-								center={[me.latitude, me.longitude]}
-								radius={sRange.range}
-								color="#fac3ce"
-							/>
-						</>
-					)}
-					{friends?.map((friend) => (
-						<MapMakerFriend
-							key={friend.user.userId}
-							info={friend}
-							focus={userInfo}
-							onClick={saveUserInfo}
-						/>
-					))}
-				</MapContainer>
-
-				{userInfo && <MapUserInfo data={userInfo} onClick={() => setIsOpen(true)} />}
-				{isOpen && userInfo && (
-					<SwipeItem
-						isLoading={isLoading}
-						data={userInfo}
-						onClose={handleClose}
-						onMatch={handleMatch}
-						onBlock={handleBlock}
+			{me ? (
+				<section className={styles.container}>
+					<RangeDialog
+						isOpen={isOpenRangeDialog}
+						onClose={handleCloseRangeDialog}
+						range={sRange.range}
 					/>
-				)}
-			</section>
+					<button className={styles.container__btnLocation} onClick={handleFocus}>
+						<LocationIcon />
+					</button>
+					<button className={styles.container__btnNext} onClick={handleNext(userInfo)}>
+						<BiSkipNext />
+					</button>
+					<button className={styles.container__btnPrev} onClick={handlePrevious(userInfo)}>
+						<BiSkipPrevious />
+					</button>
+					<button onClick={handleOpenRangeDialog} className={styles.container__btnSettingRadius}>
+						<RangeIcon />
+					</button>
+					<MapContainer
+						center={me && [me.latitude, me.longitude]}
+						zoom={16}
+						dragging={false}
+						doubleClickZoom={false}
+						attributionControl={false}
+						zoomControl={false}
+						scrollWheelZoom={false}
+						className={styles.container__mapContainer}
+					>
+						<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+						{me && (
+							<>
+								<MapMaker location={me} info={info} isFocus={isFocus} />
+								<Circle
+									center={[me.latitude, me.longitude]}
+									radius={sRange.range}
+									color="#fac3ce"
+								/>
+							</>
+						)}
+						{friends?.map((friend) => (
+							<MapMakerFriend
+								key={friend.user.userId}
+								info={friend}
+								focus={userInfo}
+								onClick={saveUserInfo}
+							/>
+						))}
+					</MapContainer>
+
+					{userInfo && <MapUserInfo data={userInfo} onClick={handleChangeStateOpen} />}
+					{isOpen && userInfo && (
+						<SwipeItem
+							isLoading={isLoading}
+							data={userInfo}
+							onClose={handleChangeStateOpen}
+							onMatch={handleMatch}
+							onBlock={handleBlock}
+						/>
+					)}
+				</section>
+			) : (
+				<LoadingV />
+			)}
 		</>
 	);
 }

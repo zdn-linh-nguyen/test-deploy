@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import NotSupport from "../noSupport";
 
-interface Props {
+interface IProps {
 	children: React.ReactNode;
 }
 
-export default function ScreenRoute({ children }: Props) {
+export default function ScreenRoute({ children }: IProps) {
 	const [isValid, setIsValid] = useState(false);
 
 	useEffect(() => {

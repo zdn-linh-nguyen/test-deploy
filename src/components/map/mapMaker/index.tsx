@@ -1,14 +1,14 @@
 import { useAppSelector } from "@/app/store";
+import { default as valueEarthCircum } from "@/constant/value";
 import { selectRange } from "@/reducers/rangeSlice";
-import { IUserLocation } from "@/types/interface";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { memo, useEffect } from "react";
 import { Marker, useMapEvents } from "react-leaflet";
 import styles from "./map-maker.module.scss";
 
-interface Props {
-	location: IUserLocation;
+interface IProps {
+	location: IUpdateLocation;
 	isFocus?: boolean;
 	info: IProfile;
 }
@@ -21,19 +21,19 @@ function getIconMarker(imageUrl: string) {
 	});
 }
 
-function MapMaker({ isFocus, location, info }: Props) {
+function MapMaker({ isFocus, location, info }: IProps) {
 	const sRange = useAppSelector(selectRange);
-	const earthCircum = 280000;
-	const flyTo = 16 - (sRange.range / earthCircum) * 360;
+	const earthCircum = valueEarthCircum;
 	const userAvatar = info.avatar ? info.avatar : "/assets/images/avatar.png";
 
 	const map = useMapEvents({});
 	useEffect(() => {
+		const flyTo = 16 - (sRange.range / earthCircum) * 360;
 		if (location) {
 			map.flyTo([location.latitude, location.longitude], flyTo);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [flyTo]);
+	}, [sRange.range]);
 
 	return (
 		<>

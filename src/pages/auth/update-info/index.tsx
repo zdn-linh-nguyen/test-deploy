@@ -15,14 +15,6 @@ import { ReactElement } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import styles from "./update-Info.module.scss";
-interface FormData {
-	phone?: string;
-	email: string;
-	name: string;
-	date: string;
-	gender: string;
-}
-
 export default function UpdateInfo() {
 	const router = useRouter();
 	const authState = useSelector(selectAuth);
@@ -86,17 +78,17 @@ export default function UpdateInfo() {
 							defaultValue={name}
 							register={register}
 							option={{
-								maxLength: {
-									value: 30,
-									message: "Họ tên không được vượt quá 30 ký tự",
-								},
-								minLength: {
-									value: 6,
-									message: "Họ tên không được ít hơn 6 ký tự",
-								},
 								required: {
 									value: true,
 									message: "Vui lòng nhập họ tên",
+								},
+								minLength: {
+									value: 2,
+									message: "Họ tên không được ít hơn 2 ký tự",
+								},
+								pattern: {
+									value: /^[\p{L}\s]+$/u,
+									message: "Họ tên chỉ được chứa chữ cái và khoảng trắng",
 								},
 							}}
 							error={errors.name?.message}
@@ -124,6 +116,30 @@ export default function UpdateInfo() {
 							label="Năm sinh"
 							placeholder="20/11/1980"
 							register={register}
+							option={{
+								required: {
+									value: true,
+									message: "Vui lòng nhập ngày sinh",
+								},
+								validate: {
+									notFutureDate: (value) => {
+										const date = new Date(value);
+										const currentDate = new Date();
+										return date <= currentDate || "Ngày sinh không thể là tương lai";
+									},
+									validDay: (value) => {
+										const date = new Date(value);
+										const currentDate = new Date();
+										const diff = currentDate.getFullYear() - date.getFullYear();
+										if (diff > 120) {
+											return "Ngày sinh không hợp lệ";
+										}
+										if (diff < 8) {
+											return "Bạn phải trên 8 tuổi";
+										}
+									},
+								},
+							}}
 							error={errors.birthday?.message}
 						/>
 						<InputSelect
@@ -138,7 +154,7 @@ export default function UpdateInfo() {
 								},
 								validate: (value) => {
 									if (value !== "0") return true;
-									return "Vui lòng chọn giới tính";
+									return "Vui lòng chọn giới tính 1";
 								},
 							}}
 							error={errors.gender?.message}

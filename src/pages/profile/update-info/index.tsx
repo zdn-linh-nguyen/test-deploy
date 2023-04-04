@@ -75,17 +75,17 @@ export default function UpdateInfo() {
 						name="name"
 						register={register}
 						option={{
-							maxLength: {
-								value: 30,
-								message: "Họ tên không được vượt quá 30 ký tự",
-							},
-							minLength: {
-								value: 6,
-								message: "Họ tên không được ít hơn 6 ký tự",
-							},
 							required: {
 								value: true,
 								message: "Vui lòng nhập họ tên",
+							},
+							minLength: {
+								value: 2,
+								message: "Họ tên không được ít hơn 2 ký tự",
+							},
+							pattern: {
+								value: /^[\p{L}\s]+$/u,
+								message: "Họ tên chỉ được chứa chữ cái và khoảng trắng",
 							},
 						}}
 						error={errors.name?.message}

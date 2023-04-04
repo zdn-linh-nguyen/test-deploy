@@ -7,26 +7,23 @@ import { Col, InputNumber, Row, Slider } from "antd";
 import { useState } from "react";
 import styles from "./range.module.scss";
 
-interface Props {
+interface IProps {
 	range: number;
 	isOpen: boolean;
 	onClose: () => void;
 }
 
-export default function RangeDialog({ isOpen, onClose, range }: Props) {
+export default function RangeDialog({ isOpen, onClose, range }: IProps) {
 	const dispatch = useAppDispatch();
 
-	const [inputValue, setInputValue] = useState<number | null>(range);
+	const [inputValue, setInputValue] = useState<number>(range);
 
-	const onChange = (newValue: number | null) => {
-		setInputValue(newValue);
-	};
+	const onChange = (newValue: number) => setInputValue(newValue);
 
 	const handleSubmitFindUser = async () => {
 		if (!inputValue) return;
 		dispatch(setRange({ range: inputValue }));
 		mapAPI.getLocation(inputValue);
-
 		onClose();
 	};
 
@@ -37,17 +34,17 @@ export default function RangeDialog({ isOpen, onClose, range }: Props) {
 					<Col span={16}>
 						<Slider
 							min={0}
-							max={10000}
+							max={5000}
 							onChange={onChange}
 							defaultValue={range}
-							value={typeof inputValue === "number" ? inputValue : 0}
+							value={inputValue}
 						/>
 					</Col>
 					<Col span={4}>
 						<InputNumber
 							min={0}
-							max={10000}
-							style={{ margin: "0 16px" }}
+							max={5000}
+							className={styles.marginX}
 							defaultValue={range}
 							value={inputValue}
 							onChange={onChange}

@@ -1,10 +1,8 @@
-import { IHeart } from "./heartWrapper";
-
-type PropsT = {
+type IProps = {
 	data: IHeart;
 };
 
-const SmallHeart = ({ data }: PropsT) => {
+const SmallHeart = ({ data }: IProps) => {
 	return (
 		<svg
 			className="little-heart animate-ping "

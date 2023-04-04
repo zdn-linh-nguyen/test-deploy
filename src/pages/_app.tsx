@@ -31,16 +31,18 @@ export default function App({ Component, pageProps: { ...pageProps } }: AppProps
 		window.setTimeout(() => {
 			setLoading(false);
 		}, 2000);
-		return () => {
-			setLoading(true);
-		};
+		return () => setLoading(true);
 	}, []);
 
 	return (
 		<div>
 			<Head>
 				<title>Cupidify</title>
-				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+				{/* if user-scalable = no, not working maybe u should change to = 0 */}
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+				/>
 				<meta name="description" content="A social network to connect with your friends" />
 				<meta name="keywords" content="Cupidify, social network, friends, connect, social, network" />
 				<link rel="icon" href="/logo.svg" />

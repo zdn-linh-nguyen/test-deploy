@@ -1,26 +1,19 @@
 import { useAppDispatch, useAppSelector } from "@/app/store";
 import { CloseIcon, MatchTitleIcon, SendIconMatch } from "@/components/icons";
 import { closeMatch, selectMatch } from "@/reducers/matchSlice";
-import { getProfile } from "@/reducers/userAction";
 import { toastError, toastSuccess } from "@/utils/toast";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HeartContainer from "./heartWrapper";
 import styles from "./match.module.scss";
 
 export default function Matching() {
 	const sMatch = useAppSelector(selectMatch).data;
-	// const sUser = useAppSelector(selectUser);
 
 	const [greetMessage, setGreetMessage] = useState<string>("");
 	const router = useRouter();
 
 	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		dispatch(getProfile());
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 
 	const handleSend = async () => {
 		try {
@@ -43,9 +36,6 @@ export default function Matching() {
 
 	const handleClose = async () => {
 		try {
-			// sMatch.data.forEach(async (item: any) => {
-			// 	await dispatch(notificationUpdateSeenNotification(item._id)).unwrap();
-			// });
 			dispatch(closeMatch());
 		} catch (error) {
 			toastError((error as IResponseError).error);
